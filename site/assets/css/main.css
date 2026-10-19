@@ -1,0 +1,1578 @@
+/* Ferienwohnung Altstadt Weißenburg
+ *
+ * Mobile first. Without the `.motion` class (no JS, reduced motion) every section is a plain,
+ * readable page. With `.motion` the sections become sticky "scenes": main.js writes the scroll
+ * progress of each scene into `--p` (0 … 1) and the styles below derive all animation from it.
+ */
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('../fonts/fraunces-latin-soft-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Figtree';
+  src: url('../fonts/figtree-latin-wght-normal.woff2') format('woff2');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --cream: #fbf6ee;
+  --sand: #f4ead9;
+  --paper: #fffdf9;
+  --ink: #2b241e;
+  --ink-2: #5f5349;
+  --line: #e7dac7;
+  --terra: #d0603a;
+  --terra-ink: #b0451f;
+  --terra-soft: #f4cdb8;
+  --sage: #87a982;
+  --sage-deep: #3e5f45;
+  --sage-soft: #e4eedb;
+  --mustard: #f0b83f;
+  --land: #f4ecdc;
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --shadow-sm: 0 1px 2px rgb(73 48 26 / 0.08), 0 4px 14px rgb(73 48 26 / 0.1);
+  --shadow: 0 2px 4px rgb(73 48 26 / 0.06), 0 14px 36px rgb(73 48 26 / 0.14);
+  --shadow-lg: 0 4px 10px rgb(50 32 18 / 0.1), 0 30px 70px rgb(50 32 18 / 0.25);
+  --radius: 22px;
+  --header-h: 64px;
+
+  /* Large/small viewport units with a fallback for older browsers. */
+  --lvh: 1vh;
+  --svh: 1vh;
+
+  color-scheme: light;
+}
+
+@supports (height: 1lvh) {
+  :root {
+    --lvh: 1lvh;
+    --svh: 1svh;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variation-settings: 'SOFT' 100;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--terra-ink);
+  text-underline-offset: 0.18em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--terra);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.todo {
+  display: inline-block;
+  padding: 0 0.45em;
+  border: 1.5px dashed #d99a12;
+  border-radius: 6px;
+  background: #fff3cf;
+  color: #6f4f00;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------------- Buttons */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 50px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--terra-ink);
+  color: #fff;
+  font: 600 1rem/1.1 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgb(176 69 31 / 0.28);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.button:hover {
+  background: #9a3a18;
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button--ghost {
+  background: rgb(255 253 249 / 0.94);
+  color: var(--ink);
+  box-shadow:
+    inset 0 0 0 1.5px var(--line),
+    var(--shadow-sm);
+}
+
+.button--ghost:hover {
+  background: #fff;
+}
+
+.button--small {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 0.95rem;
+}
+
+.button--wide {
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------- Header */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 10px max(12px, env(safe-area-inset-left));
+  pointer-events: none;
+}
+
+.site-header > * {
+  pointer-events: auto;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 5px 16px 5px 5px;
+  border-radius: 999px;
+  background: rgb(255 253 249 / 0.88);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--terra);
+  color: #fff;
+}
+
+.brand__mark .icon {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+  stroke: none;
+}
+
+.brand__text {
+  display: grid;
+}
+
+.brand__name {
+  font: 600 1rem/1.1 var(--font-display);
+  font-variation-settings: 'SOFT' 100;
+}
+
+.brand__place {
+  color: var(--ink-2);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.tour-indicator {
+  display: none;
+  gap: 5px;
+}
+
+.tour-indicator__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.tour-indicator__bar {
+  display: flex;
+  gap: 3px;
+}
+
+.tour-indicator__bar span {
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  transition: background-color 0.3s ease;
+}
+
+.tour-indicator__bar .is-done {
+  background: var(--terra-soft);
+}
+
+.tour-indicator__bar .is-current {
+  background: var(--terra);
+}
+
+.is-touring .brand__text {
+  display: none;
+}
+
+.is-touring .tour-indicator {
+  display: grid;
+}
+
+/* ---------------------------------------------------------------- Kicker, chips, cards */
+
+.kicker {
+  margin-bottom: 10px;
+  color: var(--terra-ink);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--terra-ink);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.chip span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--terra);
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.card,
+.map-card {
+  padding: 20px 22px 22px;
+  border-radius: var(--radius);
+  background: rgb(255 253 249 / 0.92);
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+}
+
+.card h2,
+.card h3,
+.map-card h2 {
+  margin-bottom: 8px;
+  font-size: clamp(1.6rem, 7vw, 2.2rem);
+}
+
+.card p:not(.chip),
+.map-card p:not(.chip) {
+  color: var(--ink-2);
+}
+
+.walk-list {
+  display: grid;
+  gap: 2px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.walk-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.walk-list li:last-child {
+  border-bottom: 0;
+}
+
+.walk-list b {
+  color: var(--terra-ink);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- 1. Anflug (static layout) */
+
+.anflug {
+  position: relative;
+  background: var(--land);
+}
+
+.anflug__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: calc(var(--header-h) + 28px) 16px 32px;
+}
+
+.anflug__steps {
+  display: contents;
+}
+
+.hero {
+  order: 1;
+}
+
+.anflug__map {
+  order: 2;
+  position: relative;
+  height: calc(62 * var(--svh));
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--land);
+  box-shadow: var(--shadow);
+}
+
+.map-card {
+  order: 3;
+}
+
+.map-attribution {
+  order: 4;
+  color: var(--ink-2);
+  font-size: 0.72rem;
+}
+
+.map-attribution a {
+  color: inherit;
+}
+
+.clouds,
+.anflug__vignette,
+.scroll-hint {
+  display: none;
+}
+
+.anflug.no-map .anflug__map {
+  background: var(--sand) url('../img/tour/ausblick-1200.webp') center / cover no-repeat;
+}
+
+.hero h1 {
+  margin-bottom: 14px;
+  font-size: clamp(2.7rem, 12vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  max-width: 34ch;
+  color: var(--ink-2);
+  font-size: 1.08rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@media (max-width: 459px) {
+  /* The header already offers "Anfragen" – keep the hero to one clear action on phones. */
+  .hero__actions .button--ghost {
+    display: none;
+  }
+}
+
+/* Map markers (rendered by MapLibre as DOM elements). */
+.map-pin {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: 44px;
+  height: 56px;
+}
+
+.map-pin__icon {
+  width: 44px;
+  height: 56px;
+  filter: drop-shadow(0 6px 8px rgb(80 40 20 / 0.35));
+}
+
+.map-pin__icon path:first-child {
+  fill: var(--terra);
+  stroke: #fff;
+  stroke-width: 2.5;
+}
+
+.map-pin__house {
+  fill: #fff;
+}
+
+.map-pin__label {
+  position: absolute;
+  bottom: 62px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font: 600 0.85rem/1 var(--font-body);
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.map-pin.is-near .map-pin__label {
+  opacity: 1;
+  transform: none;
+}
+
+.map-pin__pulse {
+  position: absolute;
+  bottom: -9px;
+  z-index: -1;
+  width: 44px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgb(228 87 46 / 0.4);
+  animation: pulse 2.2s ease-out infinite;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.map-label {
+  pointer-events: none;
+}
+
+.map-label__text {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgb(255 253 249 / 0.94);
+  color: var(--ink);
+  font: 600 0.76rem/1 var(--font-body);
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgb(70 45 25 / 0.16);
+  transition: opacity 0.35s ease;
+}
+
+.map-label.is-hidden .map-label__text {
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------- 2. Rundgang (static layout) */
+
+.tour {
+  display: grid;
+  gap: 40px;
+  padding: 48px 0;
+}
+
+.scene .stage {
+  display: grid;
+  gap: 28px;
+  width: min(100% - 32px, 760px);
+  margin-inline: auto;
+}
+
+.shot {
+  display: grid;
+  gap: 14px;
+}
+
+.photo {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--sand);
+  box-shadow: var(--shadow);
+}
+
+.photo img {
+  width: 100%;
+  background: var(--color, var(--sand));
+}
+
+.collage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.collage__head,
+.collage__item--wide {
+  grid-column: 1 / -1;
+}
+
+.collage__item {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--sand);
+  box-shadow: var(--shadow-sm);
+}
+
+.collage__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--color, var(--sand));
+}
+
+.collage__item figcaption {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  max-width: calc(100% - 16px);
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgb(255 253 249 / 0.92);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.collage__head h3 {
+  font-size: clamp(1.6rem, 7vw, 2.2rem);
+}
+
+/* ---------------------------------------------------------------- 1 + 2 with scroll motion */
+
+.motion .anflug {
+  height: calc(var(--len) * 100 * var(--lvh));
+  --t: calc(var(--p, 0) * (var(--len) - 1));
+}
+
+.motion .anflug__stage {
+  position: sticky;
+  top: 0;
+  display: block;
+  height: calc(100 * var(--lvh));
+  padding: 0;
+  overflow: hidden;
+}
+
+.motion .anflug__map {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.motion .anflug.is-ready .anflug__map,
+.motion .anflug.no-map .anflug__map {
+  opacity: 1;
+}
+
+.motion .anflug__vignette {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, var(--cream) calc(var(--header-h) + 10px), rgb(251 246 238 / 0.9) 38%, rgb(251 246 238 / 0) 58%),
+    radial-gradient(130% 70% at 50% 72%, rgb(251 246 238 / 0) 50%, rgb(251 246 238 / 0.8) 90%);
+  opacity: calc(1 - clamp(0, var(--t) / 0.9, 1));
+}
+
+.motion .clouds {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+  --cp: clamp(0, var(--t) / 1.1, 1);
+}
+
+.cloud {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: min(78vw, 760px);
+  aspect-ratio: 2.3;
+  background:
+    radial-gradient(closest-side, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0)) 0% 70% / 52% 78% no-repeat,
+    radial-gradient(closest-side, rgb(255 255 255 / 0.98), rgb(255 255 255 / 0)) 45% 25% / 62% 100% no-repeat,
+    radial-gradient(closest-side, rgb(255 255 255 / 0.92), rgb(255 255 255 / 0)) 100% 70% / 55% 74% no-repeat;
+  opacity: calc(0.8 - var(--cp) * 0.8);
+  transform: translate(calc(var(--dx) * var(--cp)), calc(var(--dy) * var(--cp))) scale(calc(var(--s) * (1 + var(--cp) * 0.7)));
+  will-change: transform, opacity;
+}
+
+.motion .step {
+  --show: min(clamp(0, (var(--t) - var(--in, -1)) * 5, 1), clamp(0, (var(--out, 99) - var(--t)) * 5, 1));
+  opacity: var(--show);
+  transform: translateY(calc((1 - var(--show)) * 22px));
+}
+
+.motion .hero {
+  position: absolute;
+  top: calc(var(--header-h) + 22px);
+  left: 20px;
+  right: 20px;
+}
+
+.motion .anflug.past-hero .hero {
+  visibility: hidden;
+}
+
+.motion .map-card {
+  position: absolute;
+  top: calc(var(--header-h) + 14px);
+  left: 14px;
+  right: 14px;
+  pointer-events: none;
+}
+
+/* Bright rim around the "door" circle that opens into the apartment (the circle itself is the
+   clip-path of the first tour scene, which lies on top of this stage). */
+.reveal-ring {
+  display: none;
+}
+
+.motion .reveal-ring {
+  --r: calc(clamp(0, var(--t) - 3, 1) * 80vmax);
+  position: absolute;
+  left: var(--pin-x, 50%);
+  top: var(--pin-y, 50%);
+  display: block;
+  width: calc(2 * var(--r) + 20px);
+  height: calc(2 * var(--r) + 20px);
+  border: 10px solid var(--cream);
+  border-radius: 50%;
+  box-shadow: 0 0 36px rgb(60 35 15 / 0.3);
+  opacity: clamp(0, (var(--t) - 3) * 25, 1);
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.motion .scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100 * var(--lvh) - 100 * var(--svh) + 22px + env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgb(255 253 249 / 0.92);
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  opacity: calc(1 - clamp(0, var(--t) * 4, 1));
+  translate: -50% 0;
+}
+
+.motion .scroll-hint .icon {
+  animation: nudge 1.6s ease-in-out infinite;
+}
+
+@keyframes nudge {
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.motion .map-attribution {
+  position: absolute;
+  right: 8px;
+  bottom: calc(100 * var(--lvh) - 100 * var(--svh) + 4px);
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgb(255 253 249 / 0.75);
+  font-size: 0.65rem;
+}
+
+/* Scenes: sticky stages that slide over each other. */
+.motion .tour {
+  display: block;
+  padding: 0;
+}
+
+.motion .scene {
+  position: relative;
+  height: calc(var(--len) * 100 * var(--lvh));
+  /* Scroll position inside the scene in viewport heights, and the "being covered" phase at the end. */
+  --t: calc(var(--p, 0) * (var(--len) - 1));
+  --cover: clamp(0, var(--t) - (var(--len) - 2), 1);
+}
+
+.motion .tour > .scene + .scene,
+.motion .tour + .sheet {
+  margin-top: calc(-100 * var(--lvh));
+}
+
+.motion .scene--reveal {
+  margin-top: calc(-200 * var(--lvh));
+}
+
+.motion .scene .stage {
+  position: sticky;
+  top: 0;
+  display: block;
+  width: auto;
+  height: calc(100 * var(--lvh));
+  overflow: hidden;
+  container-type: size;
+  background: #2b241e;
+  box-shadow: 0 -24px 48px rgb(30 20 12 / 0.22);
+}
+
+.motion .scene .stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: #1e150e;
+  opacity: calc(var(--cover) * 0.6);
+  pointer-events: none;
+}
+
+.motion .scene--reveal .stage {
+  clip-path: circle(calc(clamp(0, var(--t), 1) * 80vmax) at var(--pin-x, 50%) var(--pin-y, 50%));
+  box-shadow: none;
+}
+
+.motion .scene--reveal.is-revealed .stage {
+  clip-path: none;
+}
+
+.motion .shot {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: clamp(0, (var(--t) - var(--in)) * 3, 1);
+}
+
+.motion .photo {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--ink);
+}
+
+.motion .photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(calc(1.02 + var(--t) * 0.025));
+  transform-origin: 50% 60%;
+}
+
+/* Bottom gradient behind the cards for legibility on photos. */
+.motion .photo::after {
+  content: '';
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(to top, rgb(30 20 12 / 0.45), rgb(30 20 12 / 0));
+  pointer-events: none;
+}
+
+.motion .photo--walk img {
+  transform: scale(calc(1.18 - clamp(0, var(--t), 1) * 0.18 + clamp(0, var(--t) - 1, 2) * 0.07));
+}
+
+.motion .photo--window img {
+  transform: scale(calc(1.22 - clamp(0, var(--t) / 1.6, 1) * 0.22));
+  transform-origin: 50% 55%;
+}
+
+/* Landscape photos on portrait screens: look around the room while scrolling. */
+.motion .photo--pan img {
+  right: auto;
+  width: auto;
+  min-width: 100%;
+  max-width: none;
+  /* Each shot pans from its own entrance until the scene ends. */
+  --from: max(var(--in), 0);
+  transform: translateX(calc(clamp(0, (var(--t) - var(--from)) / (var(--len) - 1 - var(--from)), 1) * (100cqw - 100%)));
+}
+
+.motion .shot .card {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: calc(100 * var(--lvh) - 100 * var(--svh) + 16px + env(safe-area-inset-bottom));
+  z-index: 2;
+  --show: min(clamp(0, (var(--t) - var(--card-in, -1)) * 5, 1), clamp(0, (var(--card-out, 99) - var(--t)) * 6, 1));
+  opacity: var(--show);
+  transform: translateY(calc((1 - var(--show)) * 26px));
+}
+
+/* Wide-angle shots with an empty ceiling: the card sits up there and keeps the room visible. */
+.motion .shot .card--top {
+  top: calc(var(--header-h) + 6px);
+  bottom: auto;
+}
+
+.motion .shot:has(.card--top) .photo::after {
+  inset: 0 0 55%;
+  background: linear-gradient(to bottom, rgb(30 20 12 / 0.35), rgb(30 20 12 / 0));
+}
+
+/* Collage scene */
+.motion .scene--collage .stage {
+  background: var(--sand);
+}
+
+.motion .collage {
+  height: calc(100 * var(--svh) - var(--header-h) - 34px);
+  width: min(100% - 28px, 1180px);
+  margin: calc(var(--header-h) + 14px) auto 0;
+  grid-template-rows: auto minmax(0, 1.15fr) minmax(0, 1fr);
+}
+
+.motion .collage__item.step {
+  transform: translateY(calc((1 - var(--show)) * 60px)) scale(calc(0.94 + var(--show) * 0.06));
+}
+
+/* ---------------------------------------------------------------- Landscape screens (desktop, tablets) */
+
+@media (min-aspect-ratio: 5/4) and (min-width: 700px) {
+  :root {
+    --header-h: 76px;
+  }
+
+  .site-header {
+    padding-inline: max(24px, 3vw);
+    padding-top: 16px;
+  }
+
+  .motion .anflug__vignette {
+    background:
+      linear-gradient(90deg, var(--cream) 0%, rgb(251 246 238 / 0.92) 32%, rgb(251 246 238 / 0) 56%),
+      radial-gradient(120% 120% at 70% 50%, rgb(251 246 238 / 0) 55%, rgb(251 246 238 / 0.85) 100%);
+  }
+
+  .motion .hero {
+    top: 50%;
+    left: max(6vw, 32px);
+    right: auto;
+    width: min(560px, 42vw);
+    translate: 0 -50%;
+  }
+
+  .motion .map-card {
+    top: 50%;
+    left: max(5vw, 28px);
+    right: auto;
+    width: min(420px, 38vw);
+    translate: 0 -50%;
+  }
+
+  .motion .scene--frame .stage {
+    background: var(--cream);
+  }
+
+  .motion .scene--frame .photo {
+    inset: auto;
+    top: 50%;
+    right: max(6cqw, 40px);
+    height: 82cqh;
+    aspect-ratio: var(--ar);
+    translate: 0 -50%;
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .motion .scene--frame .photo::after {
+    display: none;
+  }
+
+  .motion .scene--frame .card {
+    top: 50%;
+    bottom: auto;
+    left: max(7cqw, 40px);
+    right: auto;
+    width: min(460px, calc(100cqw - 82cqh * var(--ar) - 20cqw));
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    translate: 0 -50%;
+  }
+
+  .motion .scene--frame .card h2,
+  .motion .scene--frame .card h3 {
+    margin-bottom: 14px;
+    font-size: clamp(2.2rem, 4.2vw, 4rem);
+  }
+
+  .motion .scene--frame .card p:not(.chip) {
+    font-size: 1.15rem;
+  }
+
+  .motion .scene--bleed .card {
+    left: max(5cqw, 32px);
+    right: auto;
+    bottom: max(7cqh, 32px);
+    width: min(460px, 40cqw);
+  }
+
+  .motion .photo--pan img {
+    width: 100%;
+    transform: scale(calc(1.02 + var(--t) * 0.025));
+  }
+
+  .collage {
+    grid-template-columns: 1.5fr 1fr 1fr;
+  }
+
+  .collage__item--wide {
+    grid-column: auto;
+  }
+
+  .motion .collage {
+    height: 78cqh;
+    margin-top: calc(var(--header-h) + 3cqh);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------------- Content sections */
+
+.section {
+  position: relative;
+  padding: 72px 0;
+}
+
+.sheet {
+  border-radius: 28px 28px 0 0;
+  background: var(--cream);
+  box-shadow: 0 -18px 40px rgb(45 30 20 / 0.2);
+}
+
+.section--sand {
+  background: var(--sand);
+}
+
+.container {
+  width: min(100% - 32px, 1120px);
+  margin-inline: auto;
+}
+
+.section-title {
+  margin-bottom: 14px;
+  font-size: clamp(2.1rem, 8vw, 3.4rem);
+}
+
+.section-lead {
+  max-width: 60ch;
+  color: var(--ink-2);
+  font-size: 1.1rem;
+}
+
+/* Ausstattung */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 28px 0 36px;
+  padding: 0;
+  list-style: none;
+}
+
+.fact {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+.fact .icon {
+  width: 26px;
+  height: 26px;
+  margin-bottom: 8px;
+  color: var(--terra);
+}
+
+.fact__label {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.fact__value {
+  justify-self: start;
+  font-weight: 700;
+}
+
+.amenities {
+  display: grid;
+  gap: 16px;
+}
+
+.amenities__group {
+  padding: 22px;
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+.amenities__group h3 {
+  margin-bottom: 12px;
+  font-size: 1.35rem;
+}
+
+.amenities__group ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.amenities__group li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.amenities__group li .icon {
+  width: 22px;
+  height: 22px;
+  color: var(--sage-deep);
+}
+
+@media (min-width: 700px) {
+  .facts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .amenities {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1040px) {
+  .amenities {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Lage */
+.plan-wrap {
+  margin: 28px -16px 0;
+}
+
+.plan {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 0 16px;
+}
+
+.plan::-webkit-scrollbar {
+  display: none;
+}
+
+.plan__map {
+  position: relative;
+  width: max(100%, 780px);
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--land);
+  box-shadow: var(--shadow);
+}
+
+.plan__map img {
+  width: 100%;
+}
+
+.plan__pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  translate: -50% -50%;
+}
+
+.plan__pin--home {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+  background: var(--terra);
+  z-index: 1;
+}
+
+.plan__pin--home .icon {
+  width: 21px;
+  height: 21px;
+  fill: currentColor;
+  stroke: none;
+}
+
+.plan__credit {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgb(255 253 249 / 0.8);
+  color: var(--ink-2);
+  font-size: 0.65rem;
+}
+
+.plan__credit a {
+  color: inherit;
+}
+
+.plan-hint {
+  margin-top: 8px;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.places {
+  margin-top: 28px;
+}
+
+.places__list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.places__list li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--paper);
+}
+
+.places__list .num {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.places__list .place {
+  display: grid;
+  line-height: 1.3;
+}
+
+.places__list small {
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.places__list .dist {
+  color: var(--terra-ink);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.places__note {
+  margin-top: 10px;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.places__subtitle {
+  margin: 32px 0 12px;
+  font-size: 1.5rem;
+}
+
+.trips {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trips li {
+  display: grid;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--paper);
+  line-height: 1.3;
+}
+
+.trips span {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.places__actions {
+  margin-top: 24px;
+}
+
+@media (min-width: 780px) {
+  .plan-wrap {
+    margin-inline: 0;
+  }
+
+  .plan {
+    padding: 0;
+    overflow: visible;
+  }
+
+  .plan-hint {
+    display: none;
+  }
+
+  .trips {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1040px) {
+  .places {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+  }
+
+  .places__list,
+  .places__list + .places__note {
+    grid-column: 1;
+  }
+
+  .places__subtitle,
+  .trips,
+  .trips + .places__note,
+  .places__actions {
+    grid-column: 2;
+  }
+
+  .places__subtitle {
+    grid-row: 1;
+    margin-top: 0;
+    align-self: start;
+  }
+
+  .places__list {
+    grid-row: 1 / span 4;
+  }
+
+  .trips {
+    grid-row: 2;
+    grid-template-columns: repeat(2, 1fr);
+    align-self: start;
+  }
+}
+
+/* Kontakt */
+.contact {
+  display: grid;
+  gap: 28px;
+}
+
+.contact-card {
+  display: grid;
+  gap: 22px;
+  padding: 24px 20px;
+  border-radius: 26px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.host {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.host__avatar {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--terra-soft);
+  color: var(--terra-ink);
+  font: 600 1.2rem/1 var(--font-display);
+  font-variation-settings: 'SOFT' 100;
+  letter-spacing: 0.02em;
+}
+
+
+
+.host__name {
+  font: 600 1.3rem/1.3 var(--font-display);
+  font-variation-settings: 'SOFT' 100;
+}
+
+.host__role {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.contact-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.contact-list > div {
+  display: grid;
+  gap: 2px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.contact-list dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.contact-list dt .icon {
+  width: 18px;
+  height: 18px;
+  color: var(--terra);
+}
+
+.contact-list dd {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.contact-list dd a {
+  color: var(--ink);
+  text-decoration-color: var(--terra-soft);
+  text-decoration-thickness: 2px;
+}
+
+.contact__direct {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 900px) {
+  .contact {
+    grid-template-columns: 1fr minmax(0, 480px);
+    align-items: center;
+    gap: 56px;
+  }
+
+  .contact-card {
+    padding: 32px;
+  }
+}
+
+/* Footer */
+.site-footer {
+  padding: 40px 0 calc(40px + env(safe-area-inset-bottom));
+  background: var(--sage-deep);
+  color: #eef3ea;
+  font-size: 0.95rem;
+}
+
+.site-footer a {
+  color: #fff;
+}
+
+.site-footer__inner {
+  display: grid;
+  gap: 20px;
+}
+
+.site-footer__name {
+  margin-bottom: 4px;
+  font: 600 1.25rem/1.2 var(--font-display);
+  font-variation-settings: 'SOFT' 100;
+}
+
+.site-footer nav {
+  display: flex;
+  gap: 20px;
+}
+
+@media (min-width: 700px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}
+
+/* Legal pages */
+.legal {
+  padding: calc(var(--header-h) + 40px) 0 72px;
+}
+
+.legal .container {
+  max-width: 760px;
+}
+
+.legal h1 {
+  margin-bottom: 24px;
+  font-size: clamp(2.2rem, 8vw, 3.2rem);
+}
+
+.legal h2 {
+  margin: 32px 0 10px;
+  font-size: 1.5rem;
+}
+
+.legal p,
+.legal ul {
+  margin: 0 0 12px;
+  color: var(--ink-2);
+}
+
+.legal .note {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #fff3cf;
+  color: #6f4f00;
+}

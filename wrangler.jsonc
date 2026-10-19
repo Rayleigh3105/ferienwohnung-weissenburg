@@ -1,0 +1,8 @@
+{
+  // Cloudflare Workers with static assets: serves the ./site folder as it is (no build step).
+  "name": "ferienwohnung-weissenburg",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./site"
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "wohnkueche": {
+    "width": 3000,
+    "height": 4000,
+    "color": "#988878",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "kueche": {
+    "width": 3000,
+    "height": 4000,
+    "color": "#887868",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "kuecheninsel-bar": {
+    "width": 3800,
+    "height": 2858,
+    "color": "#988878",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "kuecheninsel-tv": {
+    "width": 4000,
+    "height": 3008,
+    "color": "#988878",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "kueche-spuele": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#c8b8a8",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "kaffee-ecke": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#887868",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "sofa": {
+    "width": 4000,
+    "height": 3008,
+    "color": "#b8a898",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "schlafzimmer": {
+    "width": 6000,
+    "height": 4000,
+    "color": "#a89888",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "schlafzimmer-fenster": {
+    "width": 4000,
+    "height": 3000,
+    "color": "#887868",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "bad": {
+    "width": 3000,
+    "height": 4000,
+    "color": "#988878",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "bad-fenster": {
+    "width": 3000,
+    "height": 4000,
+    "color": "#a89878",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "dusche": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#988868",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "ausblick": {
+    "width": 3008,
+    "height": 4000,
+    "color": "#b8b8b8",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "flur": {
+    "width": 3000,
+    "height": 4000,
+    "color": "#887868",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  }
+}

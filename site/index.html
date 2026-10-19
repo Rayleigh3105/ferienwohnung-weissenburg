@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ferienwohnung in der Altstadt von Weißenburg i. Bay.</title>
+  <meta name="description" content="Gemütliche Ferienwohnung mitten in der Altstadt von Weißenburg in Bayern, in einem Baudenkmal von 1744. Marktplatz, Römermuseum und Ellinger Tor zu Fuß in wenigen Minuten. Melden Sie sich einfach direkt bei mir.">
+  <meta name="theme-color" content="#fbf6ee">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="Ferienwohnung mitten in der Altstadt von Weißenburg">
+  <meta property="og:description" content="Gemütlich wohnen in einem Baudenkmal von 1744, mitten in der Altstadt.">
+  <meta property="og:image" content="assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="assets/fonts/fraunces-latin-soft-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="assets/js/main.js">
+  <link rel="modulepreload" href="assets/js/map.js">
+  <link rel="modulepreload" href="assets/vendor/maplibre-gl/maplibre-gl.mjs">
+  <link rel="preload" href="assets/data/altstadt.json" as="fetch" crossorigin>
+  <link rel="stylesheet" href="assets/vendor/maplibre-gl/maplibre-gl.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script src="assets/js/boot.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    "name": "Ferienwohnung Altstadt Weißenburg",
+    "description": "Ferienwohnung mitten in der Altstadt von Weißenburg in Bayern, in einem Baudenkmal von 1744.",
+    "image": "assets/img/og.jpg",
+    "telephone": "+49 1515 8121835",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Pfarrgasse 3",
+      "postalCode": "91781",
+      "addressLocality": "Weißenburg in Bayern",
+      "addressCountry": "DE"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 49.031135, "longitude": 10.97016 }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#kontakt">Direkt zum Kontakt springen</a>
+
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v8.5a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1V11Z"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-cooktop" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="8.5" cy="9.5" r="2.4"/><circle cx="15.5" cy="9.5" r="2.4"/><circle cx="8.5" cy="15.5" r="1.6"/><circle cx="15.5" cy="15.5" r="1.6"/></symbol>
+    <symbol id="i-oven" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 8h17"/><rect x="7" y="11" width="10" height="6.5" rx="1"/><path d="M7 5.8h.01M10 5.8h.01"/></symbol>
+    <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5V9Z"/><path d="M16 10.5h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8.5 3.5c0 1 1 1.3 1 2.5M12 3.5c0 1 1 1.3 1 2.5"/></symbol>
+    <symbol id="i-kettle" viewBox="0 0 24 24"><path d="M5.5 20h11l-1.3-9.2a2 2 0 0 0-2-1.8H8.8a2 2 0 0 0-2 1.8L5.5 20Z"/><path d="M8.5 9l.7-3h3.6l.7 3"/><path d="M15.8 11.5c2 .4 3.2 2 3.2 4"/></symbol>
+    <symbol id="i-airfryer" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="4"/><path d="M5 12.5h14M10 16h4"/></symbol>
+    <symbol id="i-mixer" viewBox="0 0 24 24"><path d="M4.5 12h15a7.5 7.5 0 0 1-15 0Z"/><path d="M12 12V4M9.5 4h5"/></symbol>
+    <symbol id="i-tv" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M9 20h6M12 17v3"/></symbol>
+    <symbol id="i-sofa" viewBox="0 0 24 24"><path d="M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4Z"/><path d="M6 18v2M18 18v2"/></symbol>
+    <symbol id="i-stool" viewBox="0 0 24 24"><path d="M7 5h10M8 5c0 3 1 5 4 5s4-2 4-5M12 10v10M8.5 20h7M10 15h4"/></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 6v13M21 19v-5a3 3 0 0 0-3-3h-7v3M3 14h18"/><circle cx="7" cy="11" r="1.8"/></symbol>
+    <symbol id="i-wardrobe" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M12 3v18M10 11v2M14 11v2"/></symbol>
+    <symbol id="i-shower" viewBox="0 0 24 24"><path d="M4 20V7a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3v1"/><path d="M8.5 9.5h5M9.5 13v.5M13 13v.5M11.2 15.6v.5M9.5 18.2v.5M13 18.2v.5"/></symbol>
+    <symbol id="i-washer" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4.5"/><path d="M4 7h16M7.5 5h.01"/></symbol>
+    <symbol id="i-radiator" viewBox="0 0 24 24"><path d="M7 3v18M17 3v18M7 7h10M7 11h10M7 15h10M7 19h10"/></symbol>
+    <symbol id="i-mirror" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="12" rx="1.5"/><path d="M12 4v12M7 20h10M9 9l2-2M14 10l2-2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4-2 1.3a11 11 0 0 0 6.6 6.6l1.3-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 19.5V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H8l-4 2.5Z"/><path d="M8 9h8M8 12.5h5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
+  </svg>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="#top" aria-label="Ferienwohnung Altstadt Weißenburg – zum Seitenanfang">
+      <span class="brand__mark"><svg class="icon"><use href="#i-house"/></svg></span>
+      <span class="brand__text">
+        <span class="brand__name">Altstadtwohnung</span>
+        <span class="brand__place">Weißenburg i. Bay.</span>
+      </span>
+      <span class="tour-indicator" aria-hidden="true">
+        <span class="tour-indicator__label">Rundgang · <span data-room-name>Ankommen</span></span>
+        <span class="tour-indicator__bar">
+          <span data-room-dot="1"></span><span data-room-dot="2"></span><span data-room-dot="3"></span><span data-room-dot="4"></span><span data-room-dot="5"></span><span data-room-dot="6"></span>
+        </span>
+      </span>
+    </a>
+    <a class="button button--small" href="#kontakt">Kontakt</a>
+  </header>
+
+  <main id="top">
+    <!-- 1. Anflug: Vogelperspektive auf die Altstadt, beim Scrollen fliegt die Kamera zum Haus -->
+    <section class="anflug" id="anflug" data-scene="map" style="--len: 5" aria-labelledby="hero-title">
+      <div class="anflug__stage">
+        <div class="anflug__map" data-map aria-hidden="true"></div>
+        <div class="anflug__vignette" aria-hidden="true"></div>
+        <span class="reveal-ring" aria-hidden="true"></span>
+        <div class="clouds" aria-hidden="true">
+          <span class="cloud" style="--x: -42vw; --y: 40vh; --dx: -50vw; --dy: -6vh; --s: 0.9"></span>
+          <span class="cloud" style="--x: 68vw; --y: 50vh; --dx: 50vw; --dy: -8vh; --s: 0.85"></span>
+          <span class="cloud" style="--x: 58vw; --y: 84vh; --dx: 55vw; --dy: 22vh; --s: 1.2"></span>
+          <span class="cloud" style="--x: -38vw; --y: 88vh; --dx: -55vw; --dy: 24vh; --s: 1.25"></span>
+        </div>
+
+        <div class="anflug__steps">
+          <div class="hero step" style="--in: -1; --out: .5">
+            <p class="kicker">Ferienwohnung · Weißenburg in Bayern</p>
+            <h1 id="hero-title">Mittendrin in der Altstadt.</h1>
+            <p class="lead">Gemütlich wohnen in einem Baudenkmal von 1744 – Marktplatz, Römermuseum und Ellinger Tor liegen direkt vor der Haustür.</p>
+            <div class="hero__actions">
+              <a class="button" href="#rundgang" data-autoplay>Rundgang starten <svg class="icon"><use href="#i-arrow-down"/></svg></a>
+              <a class="button button--ghost" href="#kontakt">Kontakt</a>
+            </div>
+          </div>
+
+          <div class="map-card step" style="--in: .7; --out: 1.6">
+            <p class="chip">Willkommen in Weißenburg</p>
+            <h2>Römerstadt, Reichsstadt, Seenland</h2>
+            <p>Eine weitgehend erhaltene Stadtmauer, römische Thermen und das Fränkische Seenland gleich um die Ecke: Weißenburg ist ein Ort zum Ankommen und Entdecken.</p>
+          </div>
+
+          <div class="map-card step" style="--in: 1.75; --out: 2.45">
+            <p class="chip">Die Lage</p>
+            <h2>Alles zu Fuß erreichbar</h2>
+            <ul class="walk-list">
+              <li><span>Römermuseum &amp; Tourist-Info</span><b>nebenan</b></li>
+              <li><span>Marktplatz &amp; Altes Rathaus</span><b>3 Min.</b></li>
+              <li><span>Ellinger Tor</span><b>3 Min.</b></li>
+              <li><span>Bahnhof</span><b>6 Min.</b></li>
+            </ul>
+          </div>
+
+          <div class="map-card step" style="--in: 2.55; --out: 3.1">
+            <p class="chip">Pfarrgasse 3</p>
+            <h2>Ein Haus mit Geschichte</h2>
+            <p>Das ehemalige Pfarrwitwenhaus wurde 1744–46 erbaut und steht unter Denkmalschutz. Außen dicke Mauern, innen modern und gemütlich eingerichtet.</p>
+          </div>
+        </div>
+
+        <a class="scroll-hint" href="#rundgang" data-autoplay>
+          <span>Scrollen Sie los – ich zeige Ihnen den Weg</span>
+          <svg class="icon"><use href="#i-arrow-down"/></svg>
+        </a>
+        <p class="map-attribution">Kartendaten © <a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OpenStreetMap</a>-Mitwirkende</p>
+      </div>
+    </section>
+
+    <!-- 2. Rundgang durch die Wohnung -->
+    <div class="tour" id="rundgang" aria-label="Rundgang durch die Wohnung">
+
+      <section class="scene scene--frame scene--reveal" data-scene data-room="1" data-room-name="Ankommen" style="--len: 3.6; --ar: .75" aria-labelledby="raum-1">
+        <div class="stage">
+          <div class="shot" style="--in: -1; --card-in: .85">
+            <figure class="photo photo--walk">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/flur-480.avif 480w, assets/img/tour/flur-800.avif 800w, assets/img/tour/flur-1200.avif 1200w, assets/img/tour/flur-1600.avif 1600w, assets/img/tour/flur-2400.avif 2400w">
+                <img src="assets/img/tour/flur-1200.webp" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/flur-480.webp 480w, assets/img/tour/flur-800.webp 800w, assets/img/tour/flur-1200.webp 1200w, assets/img/tour/flur-1600.webp 1600w, assets/img/tour/flur-2400.webp 2400w" width="3000" height="4000" alt="Heller Flur mit Garderobe, Spiegel, Schuhschrank und gerahmten Bildern, hinten die Wohnungstür" decoding="async" style="--color: #887868">
+              </picture>
+            </figure>
+            <div class="card">
+              <p class="chip"><span>1</span> Ankommen</p>
+              <h2 id="raum-1">Herzlich willkommen!</h2>
+              <p>Jacke an die Garderobe, Schuhe in den Schrank – und schon sind Sie zu Hause auf Zeit.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene--frame" data-scene data-room="2" data-room-name="Wohnküche" style="--len: 3.8; --ar: .75" aria-labelledby="raum-2">
+        <div class="stage">
+          <div class="shot" style="--in: -1; --card-in: -1; --card-out: 1.15">
+            <figure class="photo">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/wohnkueche-480.avif 480w, assets/img/tour/wohnkueche-800.avif 800w, assets/img/tour/wohnkueche-1200.avif 1200w, assets/img/tour/wohnkueche-1600.avif 1600w, assets/img/tour/wohnkueche-2400.avif 2400w">
+                <img src="assets/img/tour/wohnkueche-1200.webp" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/wohnkueche-480.webp 480w, assets/img/tour/wohnkueche-800.webp 800w, assets/img/tour/wohnkueche-1200.webp 1200w, assets/img/tour/wohnkueche-1600.webp 1600w, assets/img/tour/wohnkueche-2400.webp 2400w" width="3000" height="4000" alt="Offene Wohnküche mit Kochinsel, Holztresen, Fernseher und grauem Ecksofa, zwei Fenster in tiefen Nischen" loading="lazy" decoding="async" style="--color: #988878">
+              </picture>
+            </figure>
+            <div class="card card--top">
+              <p class="chip"><span>2</span> Wohnküche</p>
+              <h2 id="raum-2">Das Herz der Wohnung</h2>
+              <p>Offene Wohnküche mit Kochinsel, Holztresen und gemütlicher Sofaecke. Die tiefen Fensternischen verraten das Alter des Hauses.</p>
+            </div>
+          </div>
+          <div class="shot" style="--in: 1.2; --card-in: 1.35">
+            <figure class="photo">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/kueche-480.avif 480w, assets/img/tour/kueche-800.avif 800w, assets/img/tour/kueche-1200.avif 1200w, assets/img/tour/kueche-1600.avif 1600w, assets/img/tour/kueche-2400.avif 2400w">
+                <img src="assets/img/tour/kueche-1200.webp" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/kueche-480.webp 480w, assets/img/tour/kueche-800.webp 800w, assets/img/tour/kueche-1200.webp 1200w, assets/img/tour/kueche-1600.webp 1600w, assets/img/tour/kueche-2400.webp 2400w" width="3000" height="4000" alt="Küchenzeile mit weißen Fronten, Glasschränken und Backofen, davor die Kochinsel mit Barhockern" loading="lazy" decoding="async" style="--color: #887868">
+              </picture>
+            </figure>
+            <div class="card card--top">
+              <p class="chip"><span>2</span> Wohnküche</p>
+              <h3>Kochen wie zu Hause</h3>
+              <p>Kochfeld, Backofen, Spüle und viele Schränke – da macht auch der Kochabend im Urlaub Spaß.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene--bleed" data-scene data-room="2" data-room-name="Wohnküche" style="--len: 3" aria-label="Frühstück am Tresen">
+        <div class="stage">
+          <div class="shot" style="--in: -1; --card-in: .1">
+            <figure class="photo photo--pan" style="--ar: 1.33">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 100vw, 134vh" srcset="assets/img/tour/kuecheninsel-bar-480.avif 480w, assets/img/tour/kuecheninsel-bar-800.avif 800w, assets/img/tour/kuecheninsel-bar-1200.avif 1200w, assets/img/tour/kuecheninsel-bar-1600.avif 1600w, assets/img/tour/kuecheninsel-bar-2400.avif 2400w">
+                <img src="assets/img/tour/kuecheninsel-bar-1200.webp" sizes="(min-aspect-ratio: 5/4) 100vw, 134vh" srcset="assets/img/tour/kuecheninsel-bar-480.webp 480w, assets/img/tour/kuecheninsel-bar-800.webp 800w, assets/img/tour/kuecheninsel-bar-1200.webp 1200w, assets/img/tour/kuecheninsel-bar-1600.webp 1600w, assets/img/tour/kuecheninsel-bar-2400.webp 2400w" width="3800" height="2858" alt="Kochinsel mit dunkler Arbeitsplatte, Holztresen und zwei grauen Barhockern, dahinter die Küchenzeile" loading="lazy" decoding="async" style="--color: #988878">
+              </picture>
+            </figure>
+            <div class="card">
+              <p class="chip"><span>2</span> Wohnküche</p>
+              <h3>Frühstück am Tresen</h3>
+              <p>Zwei bequeme Barhocker, ein Holztresen und der erste Kaffee des Tages – mit Blick aus dem Fenster.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene--collage" data-scene data-room="2" data-room-name="Wohnküche" style="--len: 3" aria-labelledby="details-title">
+        <div class="stage">
+          <div class="collage">
+            <div class="collage__head step" style="--in: -1">
+              <p class="chip"><span>2</span> Wohnküche</p>
+              <h3 id="details-title">Liebe zum Detail</h3>
+            </div>
+            <figure class="collage__item collage__item--wide step" style="--in: -1">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 44vw, 100vw" srcset="assets/img/tour/kuecheninsel-tv-480.avif 480w, assets/img/tour/kuecheninsel-tv-800.avif 800w, assets/img/tour/kuecheninsel-tv-1200.avif 1200w, assets/img/tour/kuecheninsel-tv-1600.avif 1600w">
+                <img src="assets/img/tour/kuecheninsel-tv-800.webp" sizes="(min-aspect-ratio: 5/4) 44vw, 100vw" srcset="assets/img/tour/kuecheninsel-tv-480.webp 480w, assets/img/tour/kuecheninsel-tv-800.webp 800w, assets/img/tour/kuecheninsel-tv-1200.webp 1200w, assets/img/tour/kuecheninsel-tv-1600.webp 1600w" width="4000" height="3008" alt="Kochinsel mit Induktionskochfeld vor dem Fenster, daneben der Wandfernseher" loading="lazy" decoding="async" style="--color: #988878">
+              </picture>
+              <figcaption>Kochinsel mit Blick zum Fernseher</figcaption>
+            </figure>
+            <figure class="collage__item step" style="--in: .25">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 22vw, 50vw" srcset="assets/img/tour/kueche-spuele-480.avif 480w, assets/img/tour/kueche-spuele-800.avif 800w, assets/img/tour/kueche-spuele-1200.avif 1200w">
+                <img src="assets/img/tour/kueche-spuele-800.webp" sizes="(min-aspect-ratio: 5/4) 22vw, 50vw" srcset="assets/img/tour/kueche-spuele-480.webp 480w, assets/img/tour/kueche-spuele-800.webp 800w, assets/img/tour/kueche-spuele-1200.webp 1200w" width="4000" height="6000" alt="Spüle mit Armatur und Küchenmaschine unter beleuchteten Glasschränken" loading="lazy" decoding="async" style="--color: #c8b8a8">
+              </picture>
+              <figcaption>Küchenmaschine &amp; Spüle</figcaption>
+            </figure>
+            <figure class="collage__item step" style="--in: .5">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 22vw, 50vw" srcset="assets/img/tour/kaffee-ecke-480.avif 480w, assets/img/tour/kaffee-ecke-800.avif 800w, assets/img/tour/kaffee-ecke-1200.avif 1200w">
+                <img src="assets/img/tour/kaffee-ecke-800.webp" sizes="(min-aspect-ratio: 5/4) 22vw, 50vw" srcset="assets/img/tour/kaffee-ecke-480.webp 480w, assets/img/tour/kaffee-ecke-800.webp 800w, assets/img/tour/kaffee-ecke-1200.webp 1200w" width="4000" height="6000" alt="Kaffee-Ecke mit Kapselmaschine, Wasserkocher und Heißluftfritteuse auf einer Holzkommode" loading="lazy" decoding="async" style="--color: #887868">
+              </picture>
+              <figcaption>Kaffee-Ecke</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene--bleed" data-scene data-room="3" data-room-name="Wohnen" style="--len: 3" aria-labelledby="raum-3">
+        <div class="stage">
+          <div class="shot" style="--in: -1; --card-in: .1">
+            <figure class="photo photo--pan" style="--ar: 1.33">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 100vw, 134vh" srcset="assets/img/tour/sofa-480.avif 480w, assets/img/tour/sofa-800.avif 800w, assets/img/tour/sofa-1200.avif 1200w, assets/img/tour/sofa-1600.avif 1600w, assets/img/tour/sofa-2400.avif 2400w">
+                <img src="assets/img/tour/sofa-1200.webp" sizes="(min-aspect-ratio: 5/4) 100vw, 134vh" srcset="assets/img/tour/sofa-480.webp 480w, assets/img/tour/sofa-800.webp 800w, assets/img/tour/sofa-1200.webp 1200w, assets/img/tour/sofa-1600.webp 1600w, assets/img/tour/sofa-2400.webp 2400w" width="4000" height="3008" alt="Graues Ecksofa mit gelben Kissen und Decken, runder Couchtisch und ein Bergmotiv an der Wand" loading="lazy" decoding="async" style="--color: #b8a898">
+              </picture>
+            </figure>
+            <div class="card">
+              <p class="chip"><span>3</span> Wohnen</p>
+              <h2 id="raum-3">Feierabend auf dem Sofa</h2>
+              <p>Großes Ecksofa mit Kissen und Kuscheldecken, Couchtisch und Fernseher – genau richtig nach einem Tag am See oder in der Altstadt.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene--bleed" data-scene data-room="4" data-room-name="Schlafen" style="--len: 3.8" aria-labelledby="raum-4">
+        <div class="stage">
+          <div class="shot" style="--in: -1; --card-in: .1; --card-out: 1.15">
+            <figure class="photo photo--pan" style="--ar: 1.5">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 100vw, 150vh" srcset="assets/img/tour/schlafzimmer-480.avif 480w, assets/img/tour/schlafzimmer-800.avif 800w, assets/img/tour/schlafzimmer-1200.avif 1200w, assets/img/tour/schlafzimmer-1600.avif 1600w, assets/img/tour/schlafzimmer-2400.avif 2400w">
+                <img src="assets/img/tour/schlafzimmer-1200.webp" sizes="(min-aspect-ratio: 5/4) 100vw, 150vh" srcset="assets/img/tour/schlafzimmer-480.webp 480w, assets/img/tour/schlafzimmer-800.webp 800w, assets/img/tour/schlafzimmer-1200.webp 1200w, assets/img/tour/schlafzimmer-1600.webp 1600w, assets/img/tour/schlafzimmer-2400.webp 2400w" width="6000" height="4000" alt="Doppelbett mit hellen und salbeigrünen Kissen, darüber ein Moosbild, Nachttisch mit Lampe und Kommode" loading="lazy" decoding="async" style="--color: #a89888">
+              </picture>
+            </figure>
+            <div class="card">
+              <p class="chip"><span>4</span> Schlafen</p>
+              <h2 id="raum-4">Gute Nacht in der Altstadt</h2>
+              <p>Gemütliches Doppelbett, Nachttisch mit Lampe und eine Kommode für Ihre Sachen.</p>
+            </div>
+          </div>
+          <div class="shot" style="--in: 1.2; --card-in: 1.35">
+            <figure class="photo photo--pan" style="--ar: 1.33">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 100vw, 134vh" srcset="assets/img/tour/schlafzimmer-fenster-480.avif 480w, assets/img/tour/schlafzimmer-fenster-800.avif 800w, assets/img/tour/schlafzimmer-fenster-1200.avif 1200w, assets/img/tour/schlafzimmer-fenster-1600.avif 1600w, assets/img/tour/schlafzimmer-fenster-2400.avif 2400w">
+                <img src="assets/img/tour/schlafzimmer-fenster-1200.webp" sizes="(min-aspect-ratio: 5/4) 100vw, 134vh" srcset="assets/img/tour/schlafzimmer-fenster-480.webp 480w, assets/img/tour/schlafzimmer-fenster-800.webp 800w, assets/img/tour/schlafzimmer-fenster-1200.webp 1200w, assets/img/tour/schlafzimmer-fenster-1600.webp 1600w, assets/img/tour/schlafzimmer-fenster-2400.webp 2400w" width="4000" height="3000" alt="Schlafzimmer mit Doppelbett, links das Fenster mit grauem Vorhang" loading="lazy" decoding="async" style="--color: #887868">
+              </picture>
+            </figure>
+            <div class="card">
+              <p class="chip"><span>4</span> Schlafen</p>
+              <h3>Hell und gemütlich</h3>
+              <p>Warmes Licht am Abend, eine Leselampe am Bett und ein Moosbild als kleines Stück Natur an der Wand.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene--frame" data-scene data-room="5" data-room-name="Bad" style="--len: 4.6; --ar: .75" aria-labelledby="raum-5">
+        <div class="stage">
+          <div class="shot" style="--in: -1; --card-in: -1; --card-out: 1.1">
+            <figure class="photo">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/bad-480.avif 480w, assets/img/tour/bad-800.avif 800w, assets/img/tour/bad-1200.avif 1200w, assets/img/tour/bad-1600.avif 1600w, assets/img/tour/bad-2400.avif 2400w">
+                <img src="assets/img/tour/bad-1200.webp" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/bad-480.webp 480w, assets/img/tour/bad-800.webp 800w, assets/img/tour/bad-1200.webp 1200w, assets/img/tour/bad-1600.webp 1600w, assets/img/tour/bad-2400.webp 2400w" width="3000" height="4000" alt="Helles Bad mit Waschtisch, Spiegelschrank, Hochschrank und Dusche mit Glaswand" loading="lazy" decoding="async" style="--color: #988878">
+              </picture>
+            </figure>
+            <div class="card card--top">
+              <p class="chip"><span>5</span> Bad</p>
+              <h2 id="raum-5">Helles Bad mit Fenster</h2>
+              <p>Waschtisch mit Spiegelschrank, viel Ablagefläche und eine große Dusche mit Glaswand.</p>
+            </div>
+          </div>
+          <div class="shot" style="--in: 1.15; --card-in: 1.3; --card-out: 2.25">
+            <figure class="photo">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/bad-fenster-480.avif 480w, assets/img/tour/bad-fenster-800.avif 800w, assets/img/tour/bad-fenster-1200.avif 1200w, assets/img/tour/bad-fenster-1600.avif 1600w, assets/img/tour/bad-fenster-2400.avif 2400w">
+                <img src="assets/img/tour/bad-fenster-1200.webp" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/bad-fenster-480.webp 480w, assets/img/tour/bad-fenster-800.webp 800w, assets/img/tour/bad-fenster-1200.webp 1200w, assets/img/tour/bad-fenster-1600.webp 1600w, assets/img/tour/bad-fenster-2400.webp 2400w" width="3000" height="4000" alt="Bad mit Fenster und Grünpflanze, Waschmaschine, WC und Handtuchheizkörper" loading="lazy" decoding="async" style="--color: #a89878">
+              </picture>
+            </figure>
+            <div class="card card--top">
+              <p class="chip"><span>5</span> Bad</p>
+              <h3>Praktisch gedacht</h3>
+              <p>Tageslicht durchs Fenster, ein Handtuchheizkörper und sogar eine eigene Waschmaschine.</p>
+            </div>
+          </div>
+          <div class="shot" style="--in: 2.3; --card-in: 2.45">
+            <figure class="photo">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 67vh)" srcset="assets/img/tour/dusche-480.avif 480w, assets/img/tour/dusche-800.avif 800w, assets/img/tour/dusche-1200.avif 1200w, assets/img/tour/dusche-1600.avif 1600w, assets/img/tour/dusche-2400.avif 2400w">
+                <img src="assets/img/tour/dusche-1200.webp" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 67vh)" srcset="assets/img/tour/dusche-480.webp 480w, assets/img/tour/dusche-800.webp 800w, assets/img/tour/dusche-1200.webp 1200w, assets/img/tour/dusche-1600.webp 1600w, assets/img/tour/dusche-2400.webp 2400w" width="4000" height="6000" alt="Große Dusche mit Glaswand, Ablagen und Handbrause" loading="lazy" decoding="async" style="--color: #988868">
+              </picture>
+            </figure>
+            <div class="card">
+              <p class="chip"><span>5</span> Bad</p>
+              <h3>Viel Platz unter der Dusche</h3>
+              <p>Große Dusche mit Glaswand, Ablagen und Handbrause.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene scene--frame scene--finale" data-scene data-room="6" data-room-name="Ausblick" style="--len: 3; --ar: .75" aria-labelledby="raum-6">
+        <div class="stage">
+          <div class="shot" style="--in: -1; --card-in: .1">
+            <figure class="photo photo--window">
+              <picture>
+                <source type="image/avif" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/ausblick-480.avif 480w, assets/img/tour/ausblick-800.avif 800w, assets/img/tour/ausblick-1200.avif 1200w, assets/img/tour/ausblick-1600.avif 1600w, assets/img/tour/ausblick-2400.avif 2400w">
+                <img src="assets/img/tour/ausblick-1200.webp" sizes="(min-aspect-ratio: 5/4) 62vh, max(100vw, 75vh)" srcset="assets/img/tour/ausblick-480.webp 480w, assets/img/tour/ausblick-800.webp 800w, assets/img/tour/ausblick-1200.webp 1200w, assets/img/tour/ausblick-1600.webp 1600w, assets/img/tour/ausblick-2400.webp 2400w" width="3008" height="4000" alt="Blick aus dem Fenster auf eine weinberankte Fassade, ein Haus mit grünen Fensterläden und die Kirche, auf dem Fensterbrett Rotwein und zwei Gläser" loading="lazy" decoding="async" style="--color: #b8b8b8">
+              </picture>
+            </figure>
+            <div class="card">
+              <p class="chip"><span>6</span> Ausblick</p>
+              <h2 id="raum-6">Und dann dieser Blick</h2>
+              <p>Kopfsteinpflaster, weinberankte Fassaden und die Kirche direkt gegenüber – die Altstadt beginnt vor Ihrem Fenster.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 3. Ausstattung -->
+    <section class="section sheet" id="ausstattung" aria-labelledby="ausstattung-title">
+      <div class="container">
+        <p class="kicker">Ausstattung</p>
+        <h2 id="ausstattung-title" class="section-title">Die Wohnung auf einen Blick</h2>
+
+        <ul class="facts" aria-label="Die Wohnung auf einen Blick">
+          <li class="fact"><svg class="icon"><use href="#i-cooktop"/></svg><span class="fact__label">Wohnküche</span><span class="fact__value">mit Kochinsel</span></li>
+          <li class="fact"><svg class="icon"><use href="#i-bed"/></svg><span class="fact__label">Schlafzimmer</span><span class="fact__value">mit Doppelbett</span></li>
+          <li class="fact"><svg class="icon"><use href="#i-shower"/></svg><span class="fact__label">Bad</span><span class="fact__value">mit Fenster &amp; Dusche</span></li>
+          <li class="fact"><svg class="icon"><use href="#i-pin"/></svg><span class="fact__label">Ausblick</span><span class="fact__value">auf die Altstadt</span></li>
+        </ul>
+
+        <div class="amenities">
+          <div class="amenities__group">
+            <h3>Küche</h3>
+            <ul>
+              <li><svg class="icon"><use href="#i-cooktop"/></svg>Kochinsel mit Kochfeld</li>
+              <li><svg class="icon"><use href="#i-oven"/></svg>Backofen</li>
+              <li><svg class="icon"><use href="#i-coffee"/></svg>Kapsel-Kaffeemaschine</li>
+              <li><svg class="icon"><use href="#i-kettle"/></svg>Wasserkocher</li>
+              <li><svg class="icon"><use href="#i-airfryer"/></svg>Heißluftfritteuse</li>
+              <li><svg class="icon"><use href="#i-mixer"/></svg>Küchenmaschine</li>
+            </ul>
+          </div>
+          <div class="amenities__group">
+            <h3>Wohnen &amp; Schlafen</h3>
+            <ul>
+              <li><svg class="icon"><use href="#i-sofa"/></svg>Großes Ecksofa mit Decken</li>
+              <li><svg class="icon"><use href="#i-tv"/></svg>Fernseher</li>
+              <li><svg class="icon"><use href="#i-stool"/></svg>Tresen mit zwei Barhockern</li>
+              <li><svg class="icon"><use href="#i-bed"/></svg>Doppelbett mit Nachttisch</li>
+              <li><svg class="icon"><use href="#i-wardrobe"/></svg>Kommode &amp; Garderobe</li>
+            </ul>
+          </div>
+          <div class="amenities__group">
+            <h3>Bad</h3>
+            <ul>
+              <li><svg class="icon"><use href="#i-shower"/></svg>Große Dusche mit Glaswand</li>
+              <li><svg class="icon"><use href="#i-mirror"/></svg>Spiegelschrank</li>
+              <li><svg class="icon"><use href="#i-radiator"/></svg>Handtuchheizkörper</li>
+              <li><svg class="icon"><use href="#i-washer"/></svg>Waschmaschine</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Lage -->
+    <section class="section section--sand" id="lage" aria-labelledby="lage-title">
+      <div class="container">
+        <p class="kicker">Lage</p>
+        <h2 id="lage-title" class="section-title">Mitten in der Altstadt – alles zu Fuß</h2>
+        <p class="section-lead">Die Wohnung liegt in der Pfarrgasse, direkt am Martin-Luther-Platz. Museen, Cafés, Restaurants und der Marktplatz sind nur ein paar Schritte entfernt.</p>
+
+        <div class="plan-wrap">
+          <div class="plan" data-plan>
+            <figure class="plan__map">
+              <img src="assets/img/altstadtplan.svg" width="1504" height="862" alt="Plan der Weißenburger Altstadt mit der Ferienwohnung und nummerierten Sehenswürdigkeiten" loading="lazy" decoding="async">
+              <span class="plan__pin plan__pin--home" style="--x: 65.80%; --y: 41.88%" aria-hidden="true"><svg class="icon"><use href="#i-house"/></svg></span>
+              <span class="plan__pin" style="--x: 67.36%; --y: 32.59%" aria-hidden="true">1</span>
+              <span class="plan__pin" style="--x: 74.49%; --y: 49.39%" aria-hidden="true">2</span>
+              <span class="plan__pin" style="--x: 72.31%; --y: 24.25%" aria-hidden="true">3</span>
+              <span class="plan__pin" style="--x: 68.91%; --y: 58.11%" aria-hidden="true">4</span>
+              <span class="plan__pin" style="--x: 81.77%; --y: 41.57%" aria-hidden="true">5</span>
+              <span class="plan__pin" style="--x: 43.82%; --y: 61.96%" aria-hidden="true">6</span>
+              <span class="plan__pin" style="--x: 89.97%; --y: 79.92%" aria-hidden="true">7</span>
+              <span class="plan__pin" style="--x: 27.85%; --y: 46.18%" aria-hidden="true">8</span>
+              <span class="plan__pin" style="--x: 9.80%; --y: 48.87%" aria-hidden="true">9</span>
+              <figcaption class="plan__credit">Kartendaten © <a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">OpenStreetMap</a>-Mitwirkende</figcaption>
+            </figure>
+          </div>
+          <p class="plan-hint" aria-hidden="true">← Plan zur Seite wischen →</p>
+        </div>
+
+        <div class="places">
+          <ol class="places__list">
+            <li><span class="num">1</span><span class="place"><b>St. Andreas, Römermuseum &amp; Tourist-Info</b><small>am Martin-Luther-Platz</small></span><span class="dist">1 Min.</span></li>
+            <li><span class="num">2</span><span class="place"><b>Marktplatz &amp; Altes Rathaus</b><small>Cafés, Eisdielen, Wochenmarkt</small></span><span class="dist">3 Min.</span></li>
+            <li><span class="num">3</span><span class="place"><b>Ellinger Tor</b><small>Wahrzeichen der Stadtmauer</small></span><span class="dist">3 Min.</span></li>
+            <li><span class="num">4</span><span class="place"><b>Spitaltor</b><small>südliches Stadttor</small></span><span class="dist">3 Min.</span></li>
+            <li><span class="num">5</span><span class="place"><b>Kulturzentrum Karmeliterkirche</b><small>Konzerte &amp; Veranstaltungen</small></span><span class="dist">4 Min.</span></li>
+            <li><span class="num">6</span><span class="place"><b>Bahnhof</b><small>Anreise ohne Auto</small></span><span class="dist">6 Min.</span></li>
+            <li><span class="num">7</span><span class="place"><b>Seeweiher</b><small>Spazieren an der Stadtmauer</small></span><span class="dist">8 Min.</span></li>
+            <li><span class="num">8</span><span class="place"><b>Römerkastell Biriciana</b><small>rekonstruiertes Nordtor</small></span><span class="dist">9 Min.</span></li>
+            <li><span class="num">9</span><span class="place"><b>Römische Thermen</b><small>eine der besterhaltenen Badeanlagen Süddeutschlands</small></span><span class="dist">14 Min.</span></li>
+          </ol>
+          <p class="places__note">Gehzeiten ungefähr, zu Fuß ab der Wohnung.</p>
+
+          <h3 class="places__subtitle">Ausflüge in die Umgebung</h3>
+          <ul class="trips">
+            <li><b>Festung Wülzburg</b><span>ca. 2,6 km</span></li>
+            <li><b>Bergwaldtheater</b><span>ca. 1,8 km</span></li>
+            <li><b>Großer Brombachsee</b><span>ca. 12 km</span></li>
+            <li><b>Altmühlsee</b><span>ca. 21 km</span></li>
+          </ul>
+          <p class="places__note">Entfernungen Luftlinie. Weißenburg liegt im Naturpark Altmühltal und gehört zum Fränkischen Seenland.</p>
+
+          <div class="places__actions">
+            <a class="button button--ghost" href="https://maps.app.goo.gl/SDPzBHL52fJBsEY56" rel="noopener" target="_blank"><svg class="icon"><use href="#i-pin"/></svg> In Google Maps öffnen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Kontakt -->
+    <section class="section" id="kontakt" aria-labelledby="kontakt-title">
+      <div class="container contact">
+        <div class="contact__intro">
+          <p class="kicker">Kontakt</p>
+          <h2 id="kontakt-title" class="section-title">Fragen zur Wohnung?</h2>
+          <p class="section-lead">Melden Sie sich einfach direkt bei mir – telefonisch oder per Nachricht.</p>
+        </div>
+
+        <div class="contact-card">
+          <div class="host">
+            <span class="host__avatar" aria-hidden="true">FB</span>
+            <div>
+              <p class="host__name">Fabian Bischoff</p>
+              <p class="host__role">Ihr Gastgeber in Weißenburg</p>
+            </div>
+          </div>
+          <dl class="contact-list">
+            <div>
+              <dt><svg class="icon"><use href="#i-phone"/></svg>Telefon</dt>
+              <dd><a href="tel:+4915158121835">+49 1515 8121835</a></dd>
+            </div>
+            <div>
+              <dt><svg class="icon"><use href="#i-mail"/></svg>E-Mail</dt>
+              <!-- TODO: E-Mail-Adresse eintragen (oder Zeile entfernen) -->
+              <dd><span class="todo">Info folgt</span></dd>
+            </div>
+            <div>
+              <dt><svg class="icon"><use href="#i-pin"/></svg>Adresse der Wohnung</dt>
+              <dd>Pfarrgasse 3, 91781 Weißenburg in Bayern</dd>
+            </div>
+          </dl>
+          <div class="contact__direct">
+            <a class="button button--wide" href="tel:+4915158121835"><svg class="icon"><use href="#i-phone"/></svg> Anrufen</a>
+            <a class="button button--ghost button--wide" href="https://wa.me/4915158121835" rel="noopener" target="_blank"><svg class="icon"><use href="#i-chat"/></svg> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <p class="site-footer__name">Ferienwohnung Altstadt Weißenburg</p>
+        <p>Ihr Gastgeber: Fabian Bischoff</p>
+        <p>Pfarrgasse 3 · 91781 Weißenburg in Bayern</p>
+        <p><a href="tel:+4915158121835">+49 1515 8121835</a></p>
+      </div>
+      <nav aria-label="Rechtliches">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,308 @@
+// Scroll-driven 3D "Anflug" from a bird's-eye view of the Altstadt down to the house.
+// The map is not interactive on purpose: the page scroll is the only camera control.
+
+const HOUSE = [10.97016, 49.031135];
+const HOUSE_HEIGHT_M = 14;
+const ALTSTADT_BOUNDS = [
+  [10.9661, 49.0278],
+  [10.9762, 49.0338],
+];
+
+const COLORS = {
+  land: '#f4ecdc',
+  farm: '#eee5c9',
+  meadow: '#e2eac3',
+  park: '#d2e5b6',
+  forest: '#bcd7a2',
+  pitch: '#cfe4b4',
+  water: '#a9d6e4',
+  plaza: '#fcf5ea',
+  roadCasing: '#e6d7bf',
+  road: '#ffffff',
+  rail: '#c8b6a1',
+  wall: '#d8ab83',
+  home: '#e4572e',
+  mark: '#f3a679',
+  old: '#f7cdac',
+  new: '#ebe0d2',
+  tree: '#9cc685',
+};
+
+// Labels shown on the bird's-eye view. `minZoom` hides labels that would crowd the overview.
+const LABELS = [
+  { name: 'Marktplatz', at: [10.97195, 49.03055] },
+  { name: 'Ellinger Tor', at: [10.9715, 49.03255] },
+  { name: 'Spitaltor', at: [10.9708, 49.02987] },
+  { name: 'Karmeliterkirche', at: [10.97345, 49.03116] },
+  { name: 'Seeweiher', at: [10.97514, 49.02817] },
+  { name: 'Römerkastell Biriciana', at: [10.96234, 49.0308] },
+  { name: 'Römische Thermen', at: [10.95862, 49.03059] },
+  { name: 'Bahnhof', at: [10.96563, 49.02957] },
+];
+
+const byLayer = (layer, extra) => (extra ? ['all', ['==', ['get', 'l'], layer], extra] : ['==', ['get', 'l'], layer]);
+const landFill = (cls, color) => ({
+  id: `land-${cls}`,
+  type: 'fill',
+  source: 'osm',
+  filter: byLayer('land', ['==', ['get', 'c'], cls]),
+  paint: { 'fill-color': color },
+});
+const zoomWidth = (pairs) => ['interpolate', ['exponential', 1.6], ['zoom'], ...pairs.flat()];
+// Road width by zoom with separate values for major and minor roads ([zoom, major, minor] stops).
+const roadWidth = (stops) =>
+  ['interpolate', ['exponential', 1.6], ['zoom'], ...stops.flatMap(([z, major, minor]) => [z, ['match', ['get', 'c'], 'major', major, minor]])];
+
+function createStyle(data) {
+  return {
+    version: 8,
+    sources: {
+      osm: { type: 'geojson', data, maxzoom: 16, tolerance: 0.2, buffer: 64 },
+    },
+    sky: {
+      'sky-color': '#cfe7ef',
+      'horizon-color': '#f7efe2',
+      'fog-color': '#f6efe3',
+      'sky-horizon-blend': 0.7,
+      'horizon-fog-blend': 0.6,
+      'fog-ground-blend': 0.35,
+      'atmosphere-blend': 0,
+    },
+    light: { anchor: 'viewport', color: '#fff6ea', intensity: 0.32, position: [1.2, 200, 35] },
+    layers: [
+      { id: 'background', type: 'background', paint: { 'background-color': COLORS.land } },
+      landFill('farm', COLORS.farm),
+      landFill('meadow', COLORS.meadow),
+      landFill('park', COLORS.park),
+      landFill('pitch', COLORS.pitch),
+      landFill('forest', COLORS.forest),
+      landFill('water', COLORS.water),
+      {
+        id: 'waterway',
+        type: 'line',
+        source: 'osm',
+        filter: byLayer('waterway'),
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': COLORS.water, 'line-width': zoomWidth([[13, 1], [18, 10]]) },
+      },
+      { id: 'plaza', type: 'fill', source: 'osm', filter: byLayer('plaza'), paint: { 'fill-color': COLORS.plaza } },
+      {
+        id: 'road-casing',
+        type: 'line',
+        source: 'osm',
+        filter: byLayer('road', ['!=', ['get', 'c'], 'path']),
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': COLORS.roadCasing,
+          'line-width': roadWidth([[13, 2.5, 1.2], [18, 26, 15]]),
+        },
+      },
+      {
+        id: 'path',
+        type: 'line',
+        source: 'osm',
+        filter: byLayer('road', ['==', ['get', 'c'], 'path']),
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': COLORS.road, 'line-opacity': 0.85, 'line-width': zoomWidth([[14, 0.6], [18, 4]]) },
+      },
+      {
+        id: 'road',
+        type: 'line',
+        source: 'osm',
+        filter: byLayer('road', ['!=', ['get', 'c'], 'path']),
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': COLORS.road,
+          'line-width': roadWidth([[13, 1.5, 0.6], [18, 22, 12]]),
+        },
+      },
+      {
+        id: 'rail',
+        type: 'line',
+        source: 'osm',
+        filter: byLayer('rail'),
+        paint: { 'line-color': COLORS.rail, 'line-width': zoomWidth([[13, 1], [18, 4]]), 'line-dasharray': [2, 1.5] },
+      },
+      {
+        id: 'wall',
+        type: 'fill-extrusion',
+        source: 'osm',
+        filter: byLayer('wall'),
+        paint: { 'fill-extrusion-color': COLORS.wall, 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-opacity': 1 },
+      },
+      {
+        id: 'building',
+        type: 'fill-extrusion',
+        source: 'osm',
+        filter: byLayer('building'),
+        paint: {
+          'fill-extrusion-color': ['match', ['get', 'k'], 'home', COLORS.home, 'mark', COLORS.mark, 'old', COLORS.old, COLORS.new],
+          'fill-extrusion-height': ['get', 'h'],
+          'fill-extrusion-opacity': 1,
+          'fill-extrusion-vertical-gradient': true,
+        },
+      },
+      {
+        id: 'tree',
+        type: 'fill-extrusion',
+        source: 'osm',
+        filter: byLayer('tree'),
+        paint: { 'fill-extrusion-color': COLORS.tree, 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-base': 1.2 },
+      },
+    ],
+  };
+}
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = (t) => t * t * (3 - 2 * t);
+
+function interpolateCamera(keyframes, p) {
+  let i = 0;
+  while (i < keyframes.length - 2 && p > keyframes[i + 1].p) i++;
+  const a = keyframes[i];
+  const b = keyframes[i + 1];
+  const t = smooth(clamp01((p - a.p) / (b.p - a.p)));
+  return {
+    center: [lerp(a.center[0], b.center[0], t), lerp(a.center[1], b.center[1], t)],
+    zoom: lerp(a.zoom, b.zoom, t),
+    pitch: lerp(a.pitch, b.pitch, t),
+    bearing: lerp(a.bearing, b.bearing, t),
+  };
+}
+
+function createPin() {
+  const el = document.createElement('div');
+  el.className = 'map-pin';
+  el.innerHTML = `
+    <span class="map-pin__label">Ihre Ferienwohnung</span>
+    <svg class="map-pin__icon" viewBox="0 0 40 52" aria-hidden="true">
+      <path d="M20 51c-1.2 0-17-17.7-17-30.5C3 10.8 10.6 3 20 3s17 7.8 17 17.5C37 33.3 21.2 51 20 51Z" />
+      <path class="map-pin__house" d="M12.5 20.5 20 14l7.5 6.5V29a1 1 0 0 1-1 1h-4.2v-5.4h-4.6V30h-4.2a1 1 0 0 1-1-1v-8.5Z" />
+    </svg>
+    <span class="map-pin__pulse" aria-hidden="true"></span>`;
+  return el;
+}
+
+// MapLibre controls the marker element's own opacity, so the label fades on an inner element.
+function createLabel(name) {
+  const el = document.createElement('div');
+  el.className = 'map-label';
+  const text = document.createElement('span');
+  text.className = 'map-label__text';
+  text.textContent = name;
+  el.append(text);
+  return el;
+}
+
+/**
+ * Loads MapLibre lazily and renders the map into `container`.
+ * Resolves with a controller whose `setProgress(p)` moves the camera (p in [0, 1]).
+ */
+export async function createAltstadtMap(container, { dataUrl, libUrl }) {
+  const [maplibre, data] = await Promise.all([
+    import(libUrl),
+    fetch(dataUrl).then((r) => {
+      if (!r.ok) throw new Error(`Map data: HTTP ${r.status}`);
+      return r.json();
+    }),
+  ]);
+
+  const map = new maplibre.Map({
+    container,
+    style: createStyle(data),
+    bounds: ALTSTADT_BOUNDS,
+    interactive: false,
+    attributionControl: false,
+    fadeDuration: 0,
+    maxPitch: 70,
+    pixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+    canvasContextAttributes: { antialias: true },
+  });
+
+  const pinEl = createPin();
+  const pin = new maplibre.Marker({ element: pinEl, anchor: 'bottom', pitchAlignment: 'viewport', rotationAlignment: 'viewport' })
+    .setLngLat(HOUSE)
+    .addTo(map);
+
+  const labels = LABELS.map((l) => ({
+    ...l,
+    el: createLabel(l.name),
+  }));
+  for (const l of labels) {
+    new maplibre.Marker({ element: l.el, anchor: 'center', pitchAlignment: 'viewport', rotationAlignment: 'viewport' }).setLngLat(l.at).addTo(map);
+  }
+
+  let keyframes = [];
+  const computeKeyframes = () => {
+    const vw = container.clientWidth;
+    const vh = container.clientHeight;
+    const portrait = vh > vw;
+    // As a full-screen backdrop the text cards sit on top (phones) or on the left (wide screens),
+    // so the camera focuses on the remaining free area. The small static map needs no room for text.
+    const fullscreen = vh >= window.innerHeight * 0.9;
+    const padding = { top: 0, bottom: 0, left: 0, right: 0 };
+    if (fullscreen && portrait) padding.top = vh * 0.36;
+    if (fullscreen && !portrait) padding.left = vw * 0.4;
+    map.setPadding(padding);
+    const overview = map.cameraForBounds(ALTSTADT_BOUNDS, {
+      padding: portrait ? { top: vh * 0.12, bottom: vh * 0.06, left: 16, right: 16 } : { top: 70, bottom: 50, left: 20, right: 50 },
+    });
+    const start = [overview.center.lng, overview.center.lat];
+    // Start a little further out than "fit", so the Altstadt shows up together with its surroundings.
+    const zoom = Math.min(overview.zoom - 0.35, 16);
+    const towards = (t) => [lerp(start[0], HOUSE[0], t), lerp(start[1], HOUSE[1], t)];
+    keyframes = [
+      { p: 0, center: start, zoom, pitch: 18, bearing: -6 },
+      { p: 0.25, center: towards(0.45), zoom: zoom + 0.45, pitch: 30, bearing: -12 },
+      { p: 0.5, center: HOUSE, zoom: zoom + 1.35, pitch: 42, bearing: -22 },
+      { p: 0.7, center: HOUSE, zoom: 17.6, pitch: 54, bearing: -34 },
+      { p: 0.76, center: HOUSE, zoom: 18.1, pitch: 57, bearing: -38 },
+      { p: 1, center: HOUSE, zoom: 19.7, pitch: 62, bearing: -46 },
+    ];
+  };
+
+  let progress = 0;
+  const apply = () => {
+    if (!keyframes.length) return;
+    const cam = interpolateCamera(keyframes, progress);
+    map.jumpTo(cam);
+
+    // Lift the pin from the ground to the roof of the house.
+    const metersPerPixel = (40075016.686 * Math.cos((HOUSE[1] * Math.PI) / 180)) / (512 * 2 ** cam.zoom);
+    const lift = (HOUSE_HEIGHT_M * Math.sin((cam.pitch * Math.PI) / 180)) / metersPerPixel;
+    pin.setOffset([0, -lift]);
+    // The tour "opens the door" from the pin, so share its screen position with the page.
+    const ground = map.project(HOUSE);
+    document.documentElement.style.setProperty('--pin-x', `${Math.round(ground.x)}px`);
+    document.documentElement.style.setProperty('--pin-y', `${Math.round(ground.y - lift - 28)}px`);
+
+    // Hide labels that would be cut off at the edges or sit under the text cards.
+    const { clientWidth: width, clientHeight: height } = container;
+    const { top: freeTop, left: freeLeft } = map.getPadding();
+    for (const l of labels) {
+      const { x, y } = map.project(l.at);
+      const halfLabel = l.el.offsetWidth / 2 + 8;
+      const offscreen = x < Math.max(halfLabel, freeLeft) || x > width - halfLabel || y < freeTop + 20 || y > height - 48;
+      const hidden = cam.zoom < (l.minZoom ?? 0) || cam.zoom > 18 || offscreen;
+      l.el.classList.toggle('is-hidden', hidden);
+    }
+    pinEl.classList.toggle('is-near', cam.zoom > 16.8);
+  };
+
+  await new Promise((resolve) => map.once('load', resolve));
+  computeKeyframes();
+  apply();
+  map.on('resize', () => {
+    computeKeyframes();
+    apply();
+  });
+
+  return {
+    setProgress(p) {
+      progress = clamp01(p);
+      apply();
+    },
+    map,
+  };
+}
