@@ -1,0 +1,20 @@
+{
+  "name": "ferienwohnung-weissenburg-tools",
+  "private": true,
+  "type": "module",
+  "description": "Hilfsskripte für die Website (Bilder, Kartendaten, lokaler Server). Nicht Teil der ausgelieferten Seite.",
+  "scripts": {
+    "dev": "node serve.mjs",
+    "build:map": "node build-map-data.mjs",
+    "build:images": "node build-images.mjs ../../Auswahl_15"
+  },
+  "devDependencies": {
+    "@fontsource-variable/figtree": "^5.3.0",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "maplibre-gl": "^6.15.0",
+    "sharp": "^0.35.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

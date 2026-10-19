@@ -27,7 +27,8 @@ site/
     img/altstadtplan.svg  Plan für den Abschnitt "Lage"
     fonts/                Schriften Fraunces und Figtree (selbst gehostet)
     vendor/maplibre-gl/   Kartenbibliothek MapLibre GL JS
-tools/                    Skripte für Bilder, Kartendaten und den lokalen Server
+tools/                    Hilfsskripte für Bilder, Kartendaten und den lokalen Server
+                          (mit eigener package.json, nicht Teil der ausgelieferten Seite)
 ```
 
 Schriften, Karte und Bibliothek werden selbst gehostet.
@@ -36,13 +37,10 @@ Die Seite lädt also nichts von Google oder anderen Drittanbietern, setzt keine 
 ## Lokal ansehen
 
 Voraussetzung ist Node.js 20 oder neuer.
+Der lokale Server braucht keine Pakete:
 
 ```bash
-npm install
-```
-
-```bash
-npm run dev
+node tools/serve.mjs
 ```
 
 Danach ist die Seite unter http://localhost:4321 erreichbar.
@@ -50,10 +48,13 @@ Der lokale Server liefert dieselben Header wie Cloudflare aus (aus `site/_header
 
 ## Veröffentlichen auf Cloudflare
 
-Variante A, Cloudflare Workers (empfohlen): Das GitHub-Repository in Cloudflare unter "Workers & Pages" verbinden.
-Die Datei `wrangler.jsonc` sorgt dafür, dass der Ordner `site/` ausgeliefert wird, ein Build-Befehl ist nicht nötig.
+Im Hauptordner des Repositorys liegt bewusst keine `package.json`.
+So installiert Cloudflare beim Deployment keine Pakete, es gibt nichts zu bauen.
 
-Variante B, Cloudflare Pages: Repository verbinden, Build-Befehl leer lassen und als Ausgabeverzeichnis `site` eintragen.
+Variante A, Cloudflare Pages: Repository verbinden, Framework "None", Build-Befehl leer lassen, Ausgabeverzeichnis `site`, Stammverzeichnis leer lassen.
+
+Variante B, Cloudflare Workers: Repository verbinden, Build-Befehl leer lassen, Deploy-Befehl `npx wrangler deploy`.
+Die Datei `wrangler.jsonc` sorgt dafür, dass der Ordner `site/` ausgeliefert wird.
 
 Die eigene Domain wird anschließend in Cloudflare beim Projekt hinterlegt.
 
@@ -61,6 +62,12 @@ Die eigene Domain wird anschließend in Cloudflare beim Projekt hinterlegt.
 
 Texte stehen direkt in `site/index.html`.
 Jeder Raum des Rundgangs ist dort ein eigener Abschnitt (`<section class="scene ...">`).
+
+Die Hilfsskripte brauchen einmalig ihre Pakete:
+
+```bash
+npm --prefix tools install
+```
 
 Fotos austauschen oder ergänzen:
 
@@ -95,5 +102,6 @@ Fehlende Angaben sind auf der Seite gelb gestrichelt markiert (`class="todo"`).
 
 - Kartendaten © OpenStreetMap-Mitwirkende, ODbL. Der Hinweis steht auf der Karte und im Plan.
 - MapLibre GL JS, BSD-3-Clause (`site/assets/vendor/maplibre-gl/LICENSE.txt`).
+  Die Dateien stammen aus `tools/node_modules/maplibre-gl/dist/` und werden bei einem Update von dort kopiert.
 - Schriften Fraunces und Figtree, SIL Open Font License (`site/assets/fonts/`).
 - Angaben zum Haus (ehemaliges Pfarrwitwenhaus, 1744 bis 1746, Baudenkmal D-5-77-177-330) aus der Bayerischen Denkmalliste bzw. Wikidata.
