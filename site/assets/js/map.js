@@ -1,7 +1,5 @@
-// The two 3D maps of the page, both drawn with MapLibre from the self-hosted OSM data:
-// - the scroll-driven "Anflug" from a bird's-eye view of the Altstadt down to the house,
-// - the close-up that shows the way from the front of the house to the apartment door.
-// Neither map is interactive on purpose: on phones a map would swallow the page scroll.
+// Scroll-driven 3D "Anflug" from a bird's-eye view of the Altstadt down to the house.
+// The map is not interactive on purpose: the page scroll is the only camera control.
 
 const HOUSE = [10.97016, 49.031135];
 const HOUSE_HEIGHT_M = 14;
@@ -155,14 +153,6 @@ function createStyle(data) {
   };
 }
 
-// The way to the apartment door in meters east/north of HOUSE: from the front door to the left
-// (east) corner of the house, then into the alley between the house and Pfarrgasse 1.
-const DOOR_ROUTE_M = [[-3.5, 12], [0.6, 12], [2.2, 11.3], [2.8, 9.6], [2.6, 5], [2.1, 0.5], [2, -1]];
-const ALLEY_CORNER_M = [2.8, 10.4];
-const FLAT_DOOR_M = [1.5, -1];
-
-const metersToLngLat = ([x, y]) => [HOUSE[0] + x / (111320 * Math.cos((HOUSE[1] * Math.PI) / 180)), HOUSE[1] + y / 110574];
-
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 const smooth = (t) => t * t * (3 - 2 * t);
@@ -206,25 +196,18 @@ function createLabel(name) {
   return el;
 }
 
-// MapLibre and the map data are loaded once and shared by both maps.
-let resources = null;
-function loadResources({ libUrl, dataUrl }) {
-  resources ??= Promise.all([
+/**
+ * Loads MapLibre lazily and renders the map into `container`.
+ * Resolves with a controller whose `setProgress(p)` moves the camera (p in [0, 1]).
+ */
+export async function createAltstadtMap(container, { dataUrl, libUrl }) {
+  const [maplibre, data] = await Promise.all([
     import(libUrl),
     fetch(dataUrl).then((r) => {
       if (!r.ok) throw new Error(`Map data: HTTP ${r.status}`);
       return r.json();
     }),
   ]);
-  return resources;
-}
-
-/**
- * Loads MapLibre lazily and renders the map into `container`.
- * Resolves with a controller whose `setProgress(p)` moves the camera (p in [0, 1]).
- */
-export async function createAltstadtMap(container, urls) {
-  const [maplibre, data] = await loadResources(urls);
 
   const map = new maplibre.Map({
     container,
@@ -317,103 +300,4 @@ export async function createAltstadtMap(container, urls) {
     },
     map,
   };
-}
-
-function createBadge(text, className) {
-  const el = document.createElement('div');
-  el.className = className;
-  el.innerHTML = text;
-  return el;
-}
-
-/**
- * Close-up of the house with the way from the front door to the apartment door.
- * The dashed line moves along the way and the camera sways a little, but only while the map is
- * on screen and the visitor does not prefer reduced motion.
- */
-export async function createDoorRouteMap(container, urls, { animate }) {
-  const [maplibre, data] = await loadResources(urls);
-  const route = DOOR_ROUTE_M.map(metersToLngLat);
-  const style = createStyle(data);
-  style.sources.route = { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: route } } };
-  // Like a model: everything is drawn lower (the neighbours much lower), so nothing hides the
-  // street and the alley, and the red house stays the landmark.
-  for (const layer of style.layers) {
-    if (layer.id === 'building') layer.paint['fill-extrusion-height'] = ['*', ['get', 'h'], ['case', ['==', ['get', 'k'], 'home'], 0.6, 0.3]];
-    if (layer.id === 'tree' || layer.id === 'wall') layer.paint['fill-extrusion-height'] = ['*', ['get', 'h'], 0.4];
-  }
-  // The way is drawn above the buildings, so the narrow alley is never hidden by a neighbour.
-  const afterBuildings = style.layers.findIndex((l) => l.id === 'building') + 1;
-  style.layers.splice(
-    afterBuildings,
-    0,
-    {
-      id: 'route-casing',
-      type: 'line',
-      source: 'route',
-      layout: { 'line-cap': 'round', 'line-join': 'round' },
-      paint: { 'line-color': '#ffffff', 'line-width': 15 },
-    },
-    {
-      id: 'route',
-      type: 'line',
-      source: 'route',
-      layout: { 'line-cap': 'butt', 'line-join': 'round' },
-      paint: { 'line-color': COLORS.home, 'line-width': 7, 'line-dasharray': [0, 4, 3] },
-    },
-  );
-
-  // Seen from north-north-east: the front faces the viewer and the alley is on the left, as in the photo.
-  const bearing = 200;
-  const zoomFor = () => (container.clientWidth < 600 ? 19.3 : 19.9);
-  const map = new maplibre.Map({
-    container,
-    style,
-    center: metersToLngLat([0, 4]),
-    zoom: zoomFor(),
-    pitch: 42,
-    bearing,
-    interactive: false,
-    attributionControl: false,
-    fadeDuration: 0,
-    pixelRatio: Math.min(window.devicePixelRatio || 1, 2),
-    canvasContextAttributes: { antialias: true },
-  });
-
-  // The labels sit next to the way (below the start, left of the corner, beyond the door).
-  const place = (el, at, anchor, offset) =>
-    new maplibre.Marker({ element: el, anchor, offset, pitchAlignment: 'viewport', rotationAlignment: 'viewport' })
-      .setLngLat(metersToLngLat(at))
-      .addTo(map);
-  place(createBadge('<b>1</b> Vorderseite', 'route-badge'), DOOR_ROUTE_M[0], 'top', [0, 8]);
-  place(createBadge('<b>2</b>', 'route-badge route-badge--round'), ALLEY_CORNER_M, 'right', [-10, 0]);
-  place(createBadge('<b>3</b> Ihre Tür', 'route-badge route-badge--door'), FLAT_DOOR_M, 'bottom', [0, -10]);
-
-  await new Promise((resolve) => map.once('load', resolve));
-  map.on('resize', () => map.setZoom(zoomFor()));
-  if (!animate) return map;
-
-  // "Marching ants": shift the dash pattern step by step, and sway the camera slowly.
-  // Sequence from the MapLibre "animate a line" example: dash 3, gap 4, shifted by 0.5 per step.
-  const dashes = [
-    [0, 4, 3], [0.5, 4, 2.5], [1, 4, 2], [1.5, 4, 1.5], [2, 4, 1], [2.5, 4, 0.5], [3, 4, 0],
-    [0, 0.5, 3, 3.5], [0, 1, 3, 3], [0, 1.5, 3, 2.5], [0, 2, 3, 2], [0, 2.5, 3, 1.5], [0, 3, 3, 1], [0, 3.5, 3, 0.5],
-  ];
-  let visible = false;
-  let raf = 0;
-  let lastStep = -1;
-  const frame = (now) => {
-    const step = Math.floor(now / 50) % dashes.length;
-    if (step !== lastStep) {
-      map.setPaintProperty('route', 'line-dasharray', dashes[step]);
-      lastStep = step;
-    }
-    map.setBearing(bearing + Math.sin(now / 3500) * 10);
-    raf = visible ? requestAnimationFrame(frame) : 0;
-  };
-  new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting;
-    if (visible && !raf) raf = requestAnimationFrame(frame);
-  }).observe(container);
-  return map;
 }

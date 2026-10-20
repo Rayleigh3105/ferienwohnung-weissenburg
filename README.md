@@ -4,7 +4,7 @@ Website der Ferienwohnung in der Pfarrgasse 3 in der Altstadt von Weißenburg in
 Die Seite stellt die Wohnung vor und nennt den Kontakt zum Gastgeber, gebucht wird nicht über die Website.
 
 Beim Scrollen fliegt die Kamera aus der Vogelperspektive über die Altstadt bis zum Haus, dabei schiebt sich schon die Fotogalerie darüber.
-Danach folgen Ausstattung, Lage, der Weg zur Wohnungstür (Foto und 3D-Ansicht) sowie Preis und Kontakt.
+Danach folgen Ausstattung, Lage, der Weg zur Wohnungstür sowie Preis und Kontakt.
 
 ## Aufbau
 
@@ -21,7 +21,7 @@ site/
     css/main.css          Gestaltung (mobile first)
     js/boot.js            schaltet die Scroll-Animation ein (nicht bei "Bewegung reduzieren")
     js/main.js            Scroll-Szenen, "Zur Wohnung" (automatischer Flug)
-    js/map.js             3D-Karten: Kamerafahrt und Weg zur Wohnungstür
+    js/map.js             3D-Karte und Kamerafahrt
     js/gallery.js         Vollbild-Ansicht der Galerie (Wischen, Pfeiltasten)
     data/altstadt.json    Kartendaten (aus OpenStreetMap erzeugt)
     img/wohnung/          Fotos in mehreren Größen (AVIF + WebP)
@@ -84,7 +84,7 @@ node tools/build-images.mjs ..
 Das Skript dreht die Bilder richtig, entfernt GPS- und Kameradaten und schreibt AVIF- und WebP-Dateien in fünf Größen nach `site/assets/img/wohnung/`.
 Bereits umgewandelte Fotos überspringt es, mit `--force` werden alle neu erzeugt.
 
-Der Weg zur Wohnungstür ist an zwei Stellen eingezeichnet: in der 3D-Ansicht über die Liste `DOOR_ROUTE_M` in `site/assets/js/map.js` (Meter östlich/nördlich des Hauses) und auf dem Außenfoto als SVG-Pfad im Abschnitt "So finden Sie die Tür" in `site/index.html` (Koordinaten im 2000 × 1332 Pixel großen Foto).
+Der Weg zur Wohnungstür ist auf dem Außenfoto als SVG-Pfad im Abschnitt "So finden Sie die Tür" in `site/index.html` eingezeichnet (Koordinaten im 2000 × 1332 Pixel großen Foto).
 
 Kartendaten neu erzeugen (z. B. wenn sich in OpenStreetMap etwas geändert hat):
 
