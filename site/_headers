@@ -10,20 +10,22 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), browsing-topics=()
   X-Frame-Options: DENY
 
+# Code and data are revalidated on every visit (an unchanged file costs only a tiny 304),
+# so a new deploy never mixes a new page with old scripts. File names carry no version.
 /assets/css/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /assets/js/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /assets/data/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /assets/vendor/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /assets/img/*
-  Cache-Control: public, max-age=2592000, stale-while-revalidate=2592000
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
 
 /assets/fonts/*
-  Cache-Control: public, max-age=2592000, stale-while-revalidate=2592000
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
