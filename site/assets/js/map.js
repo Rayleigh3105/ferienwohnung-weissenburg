@@ -168,6 +168,7 @@ function interpolateCamera(keyframes, p) {
     zoom: lerp(a.zoom, b.zoom, t),
     pitch: lerp(a.pitch, b.pitch, t),
     bearing: lerp(a.bearing, b.bearing, t),
+    padding: Object.fromEntries(Object.keys(a.padding).map((side) => [side, lerp(a.padding[side], b.padding[side], t)])),
   };
 }
 
@@ -238,26 +239,25 @@ export async function createAltstadtMap(container, { dataUrl, libUrl }) {
     const vw = container.clientWidth;
     const vh = container.clientHeight;
     const portrait = vh > vw;
-    // As a full-screen backdrop the text cards sit on top (phones) or on the left (wide screens),
-    // so the camera focuses on the remaining free area. The small static map needs no room for text.
+    // As a full-screen backdrop the camera first focuses next to the title (below it on phones,
+    // right of it on wide screens). Close to the house it focuses on the upper part of the screen,
+    // because the gallery slides up from below. The small static map needs no room for anything.
     const fullscreen = vh >= window.innerHeight * 0.9;
-    const padding = { top: 0, bottom: 0, left: 0, right: 0 };
-    if (fullscreen && portrait) padding.top = vh * 0.36;
-    if (fullscreen && !portrait) padding.left = vw * 0.4;
-    map.setPadding(padding);
+    const none = { top: 0, bottom: 0, left: 0, right: 0 };
+    const besideTitle = !fullscreen ? none : portrait ? { ...none, top: vh * 0.36 } : { ...none, left: vw * 0.4 };
+    const aboveGallery = !fullscreen ? none : { ...none, bottom: vh * (portrait ? 0.4 : 0.3) };
+    map.setPadding(besideTitle);
     const overview = map.cameraForBounds(ALTSTADT_BOUNDS, {
       padding: portrait ? { top: vh * 0.12, bottom: vh * 0.06, left: 16, right: 16 } : { top: 70, bottom: 50, left: 20, right: 50 },
     });
     const start = [overview.center.lng, overview.center.lat];
     // Start a little further out than "fit", so the Altstadt shows up together with its surroundings.
     const zoom = Math.min(overview.zoom - 0.35, 16);
-    // The scene scrolls 3 screen heights: approach (0 … 2/3), then the "door" opens (2/3 … 1).
+    // The scene scrolls 2 screen heights: approach (0 … 0.5), then the gallery slides over the map.
     keyframes = [
-      { p: 0, center: start, zoom, pitch: 18, bearing: -6 },
-      { p: 0.3, center: HOUSE, zoom: zoom + 1.35, pitch: 42, bearing: -22 },
-      { p: 0.53, center: HOUSE, zoom: 17.6, pitch: 54, bearing: -34 },
-      { p: 0.667, center: HOUSE, zoom: 18.1, pitch: 57, bearing: -38 },
-      { p: 1, center: HOUSE, zoom: 19.7, pitch: 62, bearing: -46 },
+      { p: 0, center: start, zoom, pitch: 18, bearing: -6, padding: besideTitle },
+      { p: 0.5, center: HOUSE, zoom: 17.4, pitch: 50, bearing: -28, padding: aboveGallery },
+      { p: 1, center: HOUSE, zoom: 18.8, pitch: 58, bearing: -40, padding: aboveGallery },
     ];
   };
 
@@ -271,12 +271,8 @@ export async function createAltstadtMap(container, { dataUrl, libUrl }) {
     const metersPerPixel = (40075016.686 * Math.cos((HOUSE[1] * Math.PI) / 180)) / (512 * 2 ** cam.zoom);
     const lift = (HOUSE_HEIGHT_M * Math.sin((cam.pitch * Math.PI) / 180)) / metersPerPixel;
     pin.setOffset([0, -lift]);
-    // The welcome scene "opens the door" from the pin, so share its screen position with the page.
-    const ground = map.project(HOUSE);
-    document.documentElement.style.setProperty('--pin-x', `${Math.round(ground.x)}px`);
-    document.documentElement.style.setProperty('--pin-y', `${Math.round(ground.y - lift - 28)}px`);
 
-    // Hide labels that would be cut off at the edges or sit under the text cards.
+    // Hide labels that would be cut off at the edges or sit under the title.
     const { clientWidth: width, clientHeight: height } = container;
     const { top: freeTop, left: freeLeft } = map.getPadding();
     for (const l of labels) {

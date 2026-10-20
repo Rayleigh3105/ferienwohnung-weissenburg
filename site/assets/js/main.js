@@ -9,7 +9,7 @@ const clamp01 = (v) => Math.min(1, Math.max(0, v));
 
 const scenes = [...document.querySelectorAll('[data-scene]')].map((el) => ({ el, p: -1 }));
 const anflug = document.querySelector('#anflug');
-const reveal = document.querySelector('.scene--reveal');
+const gallery = document.querySelector('#galerie');
 let mapController = null;
 
 function update() {
@@ -22,9 +22,8 @@ function update() {
     scene.el.style.setProperty('--p', p.toFixed(5));
     if (scene.el === anflug) {
       mapController?.setProgress(p);
-      anflug.classList.toggle('past-hero', p > 0.14);
+      anflug.classList.toggle('past-hero', p > 0.2);
     }
-    if (scene.el === reveal) reveal.classList.toggle('is-revealed', p * (Number(reveal.style.getPropertyValue('--len')) - 1) >= 1);
   }
 }
 
@@ -50,7 +49,7 @@ createAltstadtMap(anflug.querySelector('[data-map]'), {
 })
   .then((controller) => {
     mapController = controller;
-    controller.setProgress(motion ? scenes[0].p : 0.5);
+    controller.setProgress(motion ? scenes[0].p : 0.3);
     anflug.classList.add('is-ready');
   })
   .catch((error) => {
@@ -85,8 +84,7 @@ for (const link of document.querySelectorAll('[data-autoplay]')) {
   link.addEventListener('click', (event) => {
     if (!motion) return;
     event.preventDefault();
-    const revealTop = reveal.getBoundingClientRect().top + window.scrollY;
-    guidedScrollTo(revealTop + window.innerHeight * 1.3, 5000);
+    guidedScrollTo(gallery.getBoundingClientRect().top + window.scrollY, 3200);
   });
 }
 
@@ -103,7 +101,7 @@ for (const link of document.querySelectorAll('a[href^="#"]:not([data-autoplay])'
 
 /* ------------------------------------------------------------------ Galerie */
 
-initGallery(document.querySelector('[data-gallery]'));
+initGallery(gallery.querySelector('[data-gallery]'));
 
 /* ------------------------------------------------------------------ Lage: center the plan on the house */
 

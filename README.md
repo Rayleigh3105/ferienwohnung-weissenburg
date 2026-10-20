@@ -3,8 +3,8 @@
 Website der Ferienwohnung in der Pfarrgasse 3 in der Altstadt von Weißenburg in Bayern.
 Die Seite stellt die Wohnung vor und nennt den Kontakt zum Gastgeber, gebucht wird nicht über die Website.
 
-Beim Scrollen fliegt die Kamera aus der Vogelperspektive über die Altstadt bis zum Haus und öffnet die "Tür".
-Danach folgen eine Fotogalerie, Ausstattung, Lage sowie Preis und Kontakt.
+Beim Scrollen fliegt die Kamera aus der Vogelperspektive über die Altstadt bis zum Haus, dabei schiebt sich schon die Fotogalerie darüber.
+Danach folgen Ausstattung, Lage sowie Preis und Kontakt.
 
 ## Aufbau
 
