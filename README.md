@@ -3,8 +3,8 @@
 Website der Ferienwohnung in der Pfarrgasse 3 in der Altstadt von Weißenburg in Bayern.
 Die Seite stellt die Wohnung vor und nennt den Kontakt zum Gastgeber, gebucht wird nicht über die Website.
 
-Beim Scrollen fliegt die Kamera aus der Vogelperspektive über die Altstadt bis zum Haus, öffnet die "Tür" und führt dann Raum für Raum durch die Wohnung.
-Danach folgen Ausstattung, Lage und Kontakt.
+Beim Scrollen fliegt die Kamera aus der Vogelperspektive über die Altstadt bis zum Haus und öffnet die "Tür".
+Danach folgen eine Fotogalerie, Ausstattung, Lage sowie Preis und Kontakt.
 
 ## Aufbau
 
@@ -13,17 +13,18 @@ Alles, was ausgeliefert wird, liegt im Ordner `site/`.
 
 ```
 site/
-  index.html              Startseite mit Anflug, Rundgang, Ausstattung, Lage, Kontakt
+  index.html              Startseite mit Anflug, Galerie, Ausstattung, Lage, Preis & Kontakt
   impressum.html
   datenschutz.html
   _headers                Cache- und Sicherheits-Header für Cloudflare
   assets/
     css/main.css          Gestaltung (mobile first)
     js/boot.js            schaltet die Scroll-Animation ein (nicht bei "Bewegung reduzieren")
-    js/main.js            Scroll-Szenen, Rundgang-Fortschritt, "Rundgang starten"
+    js/main.js            Scroll-Szenen, "Zur Wohnung" (automatischer Flug)
     js/map.js             3D-Karte und Kamerafahrt
+    js/gallery.js         Vollbild-Ansicht der Galerie (Wischen, Pfeiltasten)
     data/altstadt.json    Kartendaten (aus OpenStreetMap erzeugt)
-    img/tour/             Fotos in mehreren Größen (AVIF + WebP)
+    img/wohnung/          Fotos in mehreren Größen (AVIF + WebP)
     img/altstadtplan.svg  Plan für den Abschnitt "Lage"
     fonts/                Schriften Fraunces und Figtree (selbst gehostet)
     vendor/maplibre-gl/   Kartenbibliothek MapLibre GL JS
@@ -61,7 +62,7 @@ Die eigene Domain wird anschließend in Cloudflare beim Projekt hinterlegt.
 ## Inhalte ändern
 
 Texte stehen direkt in `site/index.html`.
-Jeder Raum des Rundgangs ist dort ein eigener Abschnitt (`<section class="scene ...">`).
+Jedes Foto der Galerie ist dort ein Eintrag in der Liste `<ul class="gallery">`.
 
 Die Hilfsskripte brauchen einmalig ihre Pakete:
 
@@ -71,14 +72,17 @@ npm --prefix tools install
 
 Fotos austauschen oder ergänzen:
 
-1. Originalfotos in einen Ordner legen und im Skript `tools/build-images.mjs` in der Liste `PHOTOS` einem Namen zuordnen.
-2. Bilder erzeugen (der Pfad zeigt auf den Ordner mit den Originalen):
+1. Im Skript `tools/build-images.mjs` das Originalfoto in der Liste `PHOTOS` eintragen und ihm einen Namen geben.
+2. Bilder erzeugen (der Pfad zeigt auf den Ordner, in dem `Auswahl_15` und `Alle Bilder` liegen):
 
 ```bash
-node tools/build-images.mjs ../Auswahl_15
+node tools/build-images.mjs ..
 ```
 
-Das Skript dreht die Bilder richtig, entfernt GPS- und Kameradaten und schreibt AVIF- und WebP-Dateien in fünf Größen nach `site/assets/img/tour/`.
+3. In `site/index.html` einen Galerie-Eintrag kopieren und Namen, Maße, Farbe und Beschreibung anpassen (die Werte stehen in `tools/image-manifest.json`).
+
+Das Skript dreht die Bilder richtig, entfernt GPS- und Kameradaten und schreibt AVIF- und WebP-Dateien in fünf Größen nach `site/assets/img/wohnung/`.
+Bereits umgewandelte Fotos überspringt es, mit `--force` werden alle neu erzeugt.
 
 Kartendaten neu erzeugen (z. B. wenn sich in OpenStreetMap etwas geändert hat):
 
@@ -91,7 +95,6 @@ Das Skript schreibt `site/assets/data/altstadt.json` und `site/assets/img/altsta
 
 ## Noch offen
 
-- E-Mail-Adresse des Gastgebers (Kontaktbereich, Impressum).
 - Anschrift des Gastgebers für Impressum und Datenschutzerklärung (Pflichtangabe).
 - Impressum und Datenschutzerklärung vor der Veröffentlichung prüfen lassen.
 - Sobald die Domain feststeht: absolute Adresse für das Vorschaubild (`og:image`) eintragen, damit geteilte Links ein Bild zeigen.

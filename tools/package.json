@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node serve.mjs",
     "build:map": "node build-map-data.mjs",
-    "build:images": "node build-images.mjs ../../Auswahl_15"
+    "build:images": "node build-images.mjs ../.."
   },
   "devDependencies": {
     "@fontsource-variable/figtree": "^5.3.0",

@@ -1,4 +1,5 @@
 import { createAltstadtMap } from './map.js';
+import { initGallery } from './gallery.js';
 
 const root = document.documentElement;
 const motion = root.classList.contains('motion');
@@ -9,52 +10,22 @@ const clamp01 = (v) => Math.min(1, Math.max(0, v));
 const scenes = [...document.querySelectorAll('[data-scene]')].map((el) => ({ el, p: -1 }));
 const anflug = document.querySelector('#anflug');
 const reveal = document.querySelector('.scene--reveal');
-const sheet = document.querySelector('#ausstattung');
-const header = document.querySelector('[data-header]');
-const roomName = header.querySelector('[data-room-name]');
-const roomDots = [...header.querySelectorAll('[data-room-dot]')];
 let mapController = null;
-let currentRoom = null;
-
-function setRoom(sceneEl) {
-  if (sceneEl === currentRoom) return;
-  currentRoom = sceneEl;
-  header.classList.toggle('is-touring', Boolean(sceneEl));
-  if (!sceneEl) return;
-  const room = Number(sceneEl.dataset.room);
-  roomName.textContent = sceneEl.dataset.roomName;
-  for (const dot of roomDots) {
-    const n = Number(dot.dataset.roomDot);
-    dot.classList.toggle('is-done', n < room);
-    dot.classList.toggle('is-current', n === room);
-  }
-}
 
 function update() {
   const vh = window.innerHeight;
-  let room = null;
-
   for (const scene of scenes) {
     const rect = scene.el.getBoundingClientRect();
     const p = clamp01(-rect.top / Math.max(1, rect.height - vh));
-    if (Math.abs(p - scene.p) > 0.00005) {
-      scene.p = p;
-      scene.el.style.setProperty('--p', p.toFixed(5));
-      if (scene.el === anflug) {
-        mapController?.setProgress(p);
-        anflug.classList.toggle('past-hero', p > 0.14);
-      }
-      if (scene.el === reveal) reveal.classList.toggle('is-revealed', p * (Number(reveal.style.getPropertyValue('--len')) - 1) >= 1);
+    if (Math.abs(p - scene.p) < 0.00005) continue;
+    scene.p = p;
+    scene.el.style.setProperty('--p', p.toFixed(5));
+    if (scene.el === anflug) {
+      mapController?.setProgress(p);
+      anflug.classList.toggle('past-hero', p > 0.14);
     }
-
-    if (scene.el.dataset.room) {
-      const threshold = scene.el === reveal ? -0.7 * vh : 0.4 * vh;
-      if (rect.top <= threshold && rect.bottom > 0.4 * vh) room = scene.el;
-    }
+    if (scene.el === reveal) reveal.classList.toggle('is-revealed', p * (Number(reveal.style.getPropertyValue('--len')) - 1) >= 1);
   }
-
-  if (sheet.getBoundingClientRect().top < 0.5 * vh) room = null;
-  setRoom(room);
 }
 
 let frame = 0;
@@ -87,7 +58,7 @@ createAltstadtMap(anflug.querySelector('[data-map]'), {
     anflug.classList.add('no-map');
   });
 
-/* ------------------------------------------------------------------ "Rundgang starten": guided flight */
+/* ------------------------------------------------------------------ "Zur Wohnung": guided flight */
 
 function guidedScrollTo(targetY, duration) {
   const startY = window.scrollY;
@@ -115,7 +86,7 @@ for (const link of document.querySelectorAll('[data-autoplay]')) {
     if (!motion) return;
     event.preventDefault();
     const revealTop = reveal.getBoundingClientRect().top + window.scrollY;
-    guidedScrollTo(revealTop + window.innerHeight * 1.35, 7000);
+    guidedScrollTo(revealTop + window.innerHeight * 1.3, 5000);
   });
 }
 
@@ -129,6 +100,10 @@ for (const link of document.querySelectorAll('a[href^="#"]:not([data-autoplay])'
     history.replaceState(null, '', link.hash);
   });
 }
+
+/* ------------------------------------------------------------------ Galerie */
+
+initGallery(document.querySelector('[data-gallery]'));
 
 /* ------------------------------------------------------------------ Lage: center the plan on the house */
 

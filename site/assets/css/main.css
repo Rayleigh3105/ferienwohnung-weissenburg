@@ -283,47 +283,6 @@ a {
   line-height: 1.2;
 }
 
-.tour-indicator {
-  display: none;
-  gap: 5px;
-}
-
-.tour-indicator__label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-.tour-indicator__bar {
-  display: flex;
-  gap: 3px;
-}
-
-.tour-indicator__bar span {
-  width: 18px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--line);
-  transition: background-color 0.3s ease;
-}
-
-.tour-indicator__bar .is-done {
-  background: var(--terra-soft);
-}
-
-.tour-indicator__bar .is-current {
-  background: var(--terra);
-}
-
-.is-touring .brand__text {
-  display: none;
-}
-
-.is-touring .tour-indicator {
-  display: grid;
-}
-
 /* ---------------------------------------------------------------- Kicker, chips, cards */
 
 .kicker {
@@ -342,17 +301,6 @@ a {
   color: var(--terra-ink);
   font-size: 0.92rem;
   font-weight: 700;
-}
-
-.chip span {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--terra);
-  color: #fff;
-  letter-spacing: 0;
 }
 
 .card,
@@ -456,7 +404,7 @@ a {
 }
 
 .anflug.no-map .anflug__map {
-  background: var(--sand) url('../img/tour/ausblick-1200.webp') center / cover no-repeat;
+  background: var(--sand) url('../img/wohnung/ausblick-1200.webp') center / cover no-repeat;
 }
 
 .hero h1 {
@@ -576,19 +524,13 @@ a {
   opacity: 0;
 }
 
-/* ---------------------------------------------------------------- 2. Rundgang (static layout) */
-
-.tour {
-  display: grid;
-  gap: 40px;
-  padding: 48px 0;
-}
+/* ---------------------------------------------------------------- 2. Willkommen (static layout) */
 
 .scene .stage {
   display: grid;
-  gap: 28px;
+  gap: 16px;
   width: min(100% - 32px, 760px);
-  margin-inline: auto;
+  margin: 48px auto;
 }
 
 .shot {
@@ -607,50 +549,6 @@ a {
 .photo img {
   width: 100%;
   background: var(--color, var(--sand));
-}
-
-.collage {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.collage__head,
-.collage__item--wide {
-  grid-column: 1 / -1;
-}
-
-.collage__item {
-  position: relative;
-  margin: 0;
-  overflow: hidden;
-  border-radius: 18px;
-  background: var(--sand);
-  box-shadow: var(--shadow-sm);
-}
-
-.collage__item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: var(--color, var(--sand));
-}
-
-.collage__item figcaption {
-  position: absolute;
-  left: 8px;
-  bottom: 8px;
-  max-width: calc(100% - 16px);
-  padding: 6px 10px;
-  border-radius: 12px;
-  background: rgb(255 253 249 / 0.92);
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.collage__head h3 {
-  font-size: clamp(1.6rem, 7vw, 2.2rem);
 }
 
 /* ---------------------------------------------------------------- 1 + 2 with scroll motion */
@@ -745,13 +643,13 @@ a {
 }
 
 /* Bright rim around the "door" circle that opens into the apartment (the circle itself is the
-   clip-path of the first tour scene, which lies on top of this stage). */
+   clip-path of the welcome scene, which lies on top of this stage). */
 .reveal-ring {
   display: none;
 }
 
 .motion .reveal-ring {
-  --r: calc(clamp(0, var(--t) - 3, 1) * 80vmax);
+  --r: calc(clamp(0, var(--t) - (var(--len) - 2), 1) * 80vmax);
   position: absolute;
   left: var(--pin-x, 50%);
   top: var(--pin-y, 50%);
@@ -761,7 +659,7 @@ a {
   border: 10px solid var(--cream);
   border-radius: 50%;
   box-shadow: 0 0 36px rgb(60 35 15 / 0.3);
-  opacity: clamp(0, (var(--t) - 3) * 25, 1);
+  opacity: clamp(0, (var(--t) - (var(--len) - 2)) * 25, 1);
   translate: -50% -50%;
   pointer-events: none;
 }
@@ -807,11 +705,6 @@ a {
 }
 
 /* Scenes: sticky stages that slide over each other. */
-.motion .tour {
-  display: block;
-  padding: 0;
-}
-
 .motion .scene {
   position: relative;
   height: calc(var(--len) * 100 * var(--lvh));
@@ -820,8 +713,7 @@ a {
   --cover: clamp(0, var(--t) - (var(--len) - 2), 1);
 }
 
-.motion .tour > .scene + .scene,
-.motion .tour + .sheet {
+.motion .scene + .sheet {
   margin-top: calc(-100 * var(--lvh));
 }
 
@@ -834,6 +726,7 @@ a {
   top: 0;
   display: block;
   width: auto;
+  margin: 0;
   height: calc(100 * var(--lvh));
   overflow: hidden;
   container-type: size;
@@ -898,58 +791,15 @@ a {
   transform: scale(calc(1.18 - clamp(0, var(--t), 1) * 0.18 + clamp(0, var(--t) - 1, 2) * 0.07));
 }
 
-.motion .photo--window img {
-  transform: scale(calc(1.22 - clamp(0, var(--t) / 1.6, 1) * 0.22));
-  transform-origin: 50% 55%;
-}
-
-/* Landscape photos on portrait screens: look around the room while scrolling. */
-.motion .photo--pan img {
-  right: auto;
-  width: auto;
-  min-width: 100%;
-  max-width: none;
-  /* Each shot pans from its own entrance until the scene ends. */
-  --from: max(var(--in), 0);
-  transform: translateX(calc(clamp(0, (var(--t) - var(--from)) / (var(--len) - 1 - var(--from)), 1) * (100cqw - 100%)));
-}
-
 .motion .shot .card {
   position: absolute;
   left: 14px;
   right: 14px;
   bottom: calc(100 * var(--lvh) - 100 * var(--svh) + 16px + env(safe-area-inset-bottom));
   z-index: 2;
-  --show: min(clamp(0, (var(--t) - var(--card-in, -1)) * 5, 1), clamp(0, (var(--card-out, 99) - var(--t)) * 6, 1));
+  --show: clamp(0, (var(--t) - var(--card-in, -1)) * 5, 1);
   opacity: var(--show);
   transform: translateY(calc((1 - var(--show)) * 26px));
-}
-
-/* Wide-angle shots with an empty ceiling: the card sits up there and keeps the room visible. */
-.motion .shot .card--top {
-  top: calc(var(--header-h) + 6px);
-  bottom: auto;
-}
-
-.motion .shot:has(.card--top) .photo::after {
-  inset: 0 0 55%;
-  background: linear-gradient(to bottom, rgb(30 20 12 / 0.35), rgb(30 20 12 / 0));
-}
-
-/* Collage scene */
-.motion .scene--collage .stage {
-  background: var(--sand);
-}
-
-.motion .collage {
-  height: calc(100 * var(--svh) - var(--header-h) - 34px);
-  width: min(100% - 28px, 1180px);
-  margin: calc(var(--header-h) + 14px) auto 0;
-  grid-template-rows: auto minmax(0, 1.15fr) minmax(0, 1fr);
-}
-
-.motion .collage__item.step {
-  transform: translateY(calc((1 - var(--show)) * 60px)) scale(calc(0.94 + var(--show) * 0.06));
 }
 
 /* ---------------------------------------------------------------- Landscape screens (desktop, tablets) */
@@ -1028,32 +878,6 @@ a {
   .motion .scene--frame .card p:not(.chip) {
     font-size: 1.15rem;
   }
-
-  .motion .scene--bleed .card {
-    left: max(5cqw, 32px);
-    right: auto;
-    bottom: max(7cqh, 32px);
-    width: min(460px, 40cqw);
-  }
-
-  .motion .photo--pan img {
-    width: 100%;
-    transform: scale(calc(1.02 + var(--t) * 0.025));
-  }
-
-  .collage {
-    grid-template-columns: 1.5fr 1fr 1fr;
-  }
-
-  .collage__item--wide {
-    grid-column: auto;
-  }
-
-  .motion .collage {
-    height: 78cqh;
-    margin-top: calc(var(--header-h) + 3cqh);
-    grid-template-rows: auto minmax(0, 1fr);
-  }
 }
 
 /* ---------------------------------------------------------------- Content sections */
@@ -1087,6 +911,203 @@ a {
   max-width: 60ch;
   color: var(--ink-2);
   font-size: 1.1rem;
+}
+
+/* Galerie */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--sand);
+  box-shadow: var(--shadow-sm);
+}
+
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--color, var(--sand));
+  transition: transform 0.5s ease;
+}
+
+.tile:hover img {
+  transform: scale(1.04);
+}
+
+.tile__label {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgb(255 253 249 / 0.92);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+@media (min-width: 700px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .tile {
+    border-radius: 20px;
+  }
+}
+
+@media (min-width: 1040px) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Vollbild-Ansicht der Galerie (wird von gallery.js aufgebaut) */
+html:has(.lightbox[open]) {
+  overflow: hidden;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #16100b;
+  color: #fff;
+}
+
+.lightbox::backdrop {
+  background: transparent;
+}
+
+.lightbox__track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.lightbox__track::-webkit-scrollbar {
+  display: none;
+}
+
+.lightbox__slide {
+  display: grid;
+  flex: 0 0 100%;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 12px;
+  margin: 0;
+  padding: max(64px, env(safe-area-inset-top)) 12px max(20px, env(safe-area-inset-bottom));
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.lightbox__slide picture {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.lightbox__slide img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.lightbox__slide figcaption {
+  max-width: 60ch;
+  margin-inline: auto;
+  color: rgb(255 255 255 / 0.85);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.lightbox__counter {
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top));
+  left: 50%;
+  font-size: 0.9rem;
+  font-weight: 600;
+  translate: -50% 0;
+}
+
+.lightbox__button {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.lightbox__button:hover {
+  background: rgb(255 255 255 / 0.26);
+}
+
+.lightbox__button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.lightbox__button .icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+}
+
+.lightbox__close {
+  top: max(8px, env(safe-area-inset-top));
+  right: 8px;
+}
+
+.lightbox__prev,
+.lightbox__next {
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.lightbox__prev {
+  left: 12px;
+}
+
+.lightbox__next {
+  right: 12px;
+}
+
+/* On phones swiping is the natural way; the arrows would only cover the photo. */
+@media (hover: none) and (max-width: 699px) {
+  .lightbox__prev,
+  .lightbox__next {
+    display: none;
+  }
 }
 
 /* Ausstattung */
@@ -1236,6 +1257,10 @@ a {
   z-index: 1;
 }
 
+.plan__pin--parking {
+  background: #2f6fb0;
+}
+
 .plan__pin--home .icon {
   width: 21px;
   height: 21px;
@@ -1297,6 +1322,10 @@ a {
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.places__list .num--parking {
+  background: #2f6fb0;
 }
 
 .places__list .place {
@@ -1408,6 +1437,60 @@ a {
 }
 
 /* Kontakt */
+.price-card {
+  display: grid;
+  gap: 4px;
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price__amount {
+  color: var(--terra-ink);
+  font: 600 clamp(2.6rem, 11vw, 3.4rem)/1 var(--font-display);
+  font-variation-settings: 'SOFT' 100;
+  letter-spacing: -0.02em;
+}
+
+.price__unit {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.price__extra {
+  color: var(--ink-2);
+}
+
+.price-list {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.price-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.price-list .icon {
+  width: 22px;
+  height: 22px;
+  color: var(--sage-deep);
+}
 .contact {
   display: grid;
   gap: 28px;

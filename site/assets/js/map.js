@@ -251,13 +251,12 @@ export async function createAltstadtMap(container, { dataUrl, libUrl }) {
     const start = [overview.center.lng, overview.center.lat];
     // Start a little further out than "fit", so the Altstadt shows up together with its surroundings.
     const zoom = Math.min(overview.zoom - 0.35, 16);
-    const towards = (t) => [lerp(start[0], HOUSE[0], t), lerp(start[1], HOUSE[1], t)];
+    // The scene scrolls 3 screen heights: approach (0 … 2/3), then the "door" opens (2/3 … 1).
     keyframes = [
       { p: 0, center: start, zoom, pitch: 18, bearing: -6 },
-      { p: 0.25, center: towards(0.45), zoom: zoom + 0.45, pitch: 30, bearing: -12 },
-      { p: 0.5, center: HOUSE, zoom: zoom + 1.35, pitch: 42, bearing: -22 },
-      { p: 0.7, center: HOUSE, zoom: 17.6, pitch: 54, bearing: -34 },
-      { p: 0.76, center: HOUSE, zoom: 18.1, pitch: 57, bearing: -38 },
+      { p: 0.3, center: HOUSE, zoom: zoom + 1.35, pitch: 42, bearing: -22 },
+      { p: 0.53, center: HOUSE, zoom: 17.6, pitch: 54, bearing: -34 },
+      { p: 0.667, center: HOUSE, zoom: 18.1, pitch: 57, bearing: -38 },
       { p: 1, center: HOUSE, zoom: 19.7, pitch: 62, bearing: -46 },
     ];
   };
@@ -272,7 +271,7 @@ export async function createAltstadtMap(container, { dataUrl, libUrl }) {
     const metersPerPixel = (40075016.686 * Math.cos((HOUSE[1] * Math.PI) / 180)) / (512 * 2 ** cam.zoom);
     const lift = (HOUSE_HEIGHT_M * Math.sin((cam.pitch * Math.PI) / 180)) / metersPerPixel;
     pin.setOffset([0, -lift]);
-    // The tour "opens the door" from the pin, so share its screen position with the page.
+    // The welcome scene "opens the door" from the pin, so share its screen position with the page.
     const ground = map.project(HOUSE);
     document.documentElement.style.setProperty('--pin-x', `${Math.round(ground.x)}px`);
     document.documentElement.style.setProperty('--pin-y', `${Math.round(ground.y - lift - 28)}px`);

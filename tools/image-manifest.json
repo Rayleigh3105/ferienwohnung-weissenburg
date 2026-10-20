@@ -47,10 +47,10 @@
       2400
     ]
   },
-  "kueche-spuele": {
+  "kuechenzeile": {
     "width": 4000,
     "height": 6000,
-    "color": "#c8b8a8",
+    "color": "#683818",
     "widths": [
       480,
       800,
@@ -59,10 +59,10 @@
       2400
     ]
   },
-  "kaffee-ecke": {
+  "tresen-fenster": {
     "width": 4000,
     "height": 6000,
-    "color": "#887868",
+    "color": "#c8a888",
     "widths": [
       480,
       800,
@@ -75,6 +75,42 @@
     "width": 4000,
     "height": 3008,
     "color": "#b8a898",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "sofa-ecke": {
+    "width": 3008,
+    "height": 4000,
+    "color": "#a89888",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "wohnbereich": {
+    "width": 4000,
+    "height": 3008,
+    "color": "#988878",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "fensterbank": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#987858",
     "widths": [
       480,
       800,
@@ -99,6 +135,30 @@
     "width": 4000,
     "height": 3000,
     "color": "#887868",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "schlafzimmer-schrank": {
+    "width": 4000,
+    "height": 3008,
+    "color": "#988878",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "schlafzimmer-tuer": {
+    "width": 3000,
+    "height": 4000,
+    "color": "#a89888",
     "widths": [
       480,
       800,
@@ -143,10 +203,22 @@
       2400
     ]
   },
-  "ausblick": {
+  "bad-waschtisch": {
     "width": 3008,
     "height": 4000,
-    "color": "#b8b8b8",
+    "color": "#a89888",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "waschbecken": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#886848",
     "widths": [
       480,
       800,
@@ -159,6 +231,54 @@
     "width": 3000,
     "height": 4000,
     "color": "#887868",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "garderobe": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#a89888",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "ausblick": {
+    "width": 3008,
+    "height": 4000,
+    "color": "#b8b8b8",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "ausblick-gasse": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#f8f8f8",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2400
+    ]
+  },
+  "ausblick-fenster": {
+    "width": 4000,
+    "height": 6000,
+    "color": "#785838",
     "widths": [
       480,
       800,

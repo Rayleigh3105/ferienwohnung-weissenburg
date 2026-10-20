@@ -307,6 +307,7 @@ const PLAN_PINS = {
   seeweiher: [10.97514, 49.02817],
   kastell: [10.96234, 49.0308],
   thermen: [10.95862, 49.03059],
+  parkhaus: [10.96975, 49.032961], // Parkhaus Doerfler-Villa (kostenlos)
 };
 
 async function writePlan(features) {
