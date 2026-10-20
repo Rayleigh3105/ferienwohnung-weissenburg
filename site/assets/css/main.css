@@ -994,6 +994,10 @@ html:has(.lightbox[open]) {
   color: #fff;
 }
 
+.lightbox:focus {
+  outline: none;
+}
+
 .lightbox::backdrop {
   background: transparent;
 }

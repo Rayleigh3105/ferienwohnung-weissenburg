@@ -11,10 +11,14 @@ export function initGallery(gallery) {
   dialog.innerHTML = `
     <div class="lightbox__track"></div>
     <p class="lightbox__counter" aria-live="polite"></p>
-    <button class="lightbox__button lightbox__close" type="button" aria-label="Schließen" autofocus><svg class="icon"><use href="#i-close"/></svg></button>
+    <button class="lightbox__button lightbox__close" type="button" aria-label="Schließen"><svg class="icon"><use href="#i-close"/></svg></button>
     <button class="lightbox__button lightbox__prev" type="button" aria-label="Vorheriges Foto"><svg class="icon"><use href="#i-prev"/></svg></button>
     <button class="lightbox__button lightbox__next" type="button" aria-label="Nächstes Foto"><svg class="icon"><use href="#i-next"/></svg></button>`;
   const track = dialog.querySelector('.lightbox__track');
+  // The viewer itself takes the focus when it opens: arrow keys work right away and no button
+  // shows a focus ring after a tap. The scrolling track is swiped, not tabbed to.
+  dialog.tabIndex = -1;
+  track.tabIndex = -1;
   const counter = dialog.querySelector('.lightbox__counter');
   const prev = dialog.querySelector('.lightbox__prev');
   const next = dialog.querySelector('.lightbox__next');
@@ -80,6 +84,7 @@ export function initGallery(gallery) {
       event.preventDefault();
       opener = tile;
       dialog.showModal();
+      dialog.focus({ preventScroll: true });
       go(i, 'auto');
     });
   });

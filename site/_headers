@@ -1,5 +1,7 @@
 # Cloudflare (Pages / Workers Static Assets) response headers.
 # The local dev server (tools/serve.mjs) applies the same rules.
+# Cloudflare joins the values when several rules set the same header, so the path
+# patterns below must not overlap for Cache-Control.
 
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
@@ -8,11 +10,20 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), browsing-topics=()
   X-Frame-Options: DENY
 
-/assets/*
+/assets/css/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/assets/js/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/assets/data/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/assets/vendor/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
 /assets/img/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=2592000
 
 /assets/fonts/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=2592000
