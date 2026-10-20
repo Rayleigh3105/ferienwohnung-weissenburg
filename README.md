@@ -1,4 +1,4 @@
-# Ferienwohnung Altstadt Weißenburg
+# Ferienwohnung Bischoff Weißenburg
 
 Website der Ferienwohnung in der Pfarrgasse 3 in der Altstadt von Weißenburg in Bayern.
 Die Seite stellt die Wohnung vor und nennt den Kontakt zum Gastgeber, gebucht wird nicht über die Website.

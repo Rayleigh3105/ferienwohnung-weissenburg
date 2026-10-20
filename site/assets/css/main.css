@@ -275,6 +275,33 @@ a {
 .brand__name {
   font: 600 1rem/1.1 var(--font-display);
   font-variation-settings: 'SOFT' 100;
+  white-space: nowrap;
+}
+
+@media (max-width: 400px) {
+  /* Keeps "Ferienwohnung Bischoff" on one line next to the contact button on small phones. */
+  .brand__name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 359px) {
+  /* Very small phones: without the house icon the name and the contact button still fit. */
+  .brand {
+    padding-left: 14px;
+  }
+
+  .brand__mark {
+    display: none;
+  }
+
+  .brand__name {
+    font-size: 0.84rem;
+  }
+
+  .site-header .button--small {
+    padding: 0 14px;
+  }
 }
 
 .brand__place {
