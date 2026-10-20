@@ -1,6 +1,6 @@
-// "?v=2": until 20.10.2026 code files were cached for a day; the new address makes browsers that
+// "?v=…": until 20.10.2026 code files were cached for a day; the new address makes browsers that
 // still hold the old files load the current ones. Since then code is revalidated on every visit.
-import { createAltstadtMap } from './map.js?v=2';
+import { createAltstadtMap, createDoorRouteMap } from './map.js?v=2';
 import { initGallery } from './gallery.js?v=2';
 
 const root = document.documentElement;
@@ -45,10 +45,12 @@ if (motion) {
 
 /* ------------------------------------------------------------------ Map */
 
-createAltstadtMap(anflug.querySelector('[data-map]'), {
+const mapUrls = {
   dataUrl: new URL('../data/altstadt.json', import.meta.url).href,
   libUrl: new URL('../vendor/maplibre-gl/maplibre-gl.mjs', import.meta.url).href,
-})
+};
+
+createAltstadtMap(anflug.querySelector('[data-map]'), mapUrls)
   .then((controller) => {
     mapController = controller;
     controller.setProgress(motion ? scenes[0].p : 0.3);
@@ -104,6 +106,24 @@ for (const link of document.querySelectorAll('a[href^="#"]:not([data-autoplay])'
 /* ------------------------------------------------------------------ Galerie */
 
 initGallery(gallery.querySelector('[data-gallery]'));
+
+/* ------------------------------------------------------------------ Ankommen: 3D view of the way to the door */
+
+const doorMap = document.querySelector('[data-door-map]');
+new IntersectionObserver(
+  (entries, observer) => {
+    if (!entries.some((entry) => entry.isIntersecting)) return;
+    observer.disconnect();
+    const animate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    createDoorRouteMap(doorMap, mapUrls, { animate })
+      .then(() => doorMap.classList.add('is-ready'))
+      .catch((error) => {
+        console.warn('3D-Ansicht konnte nicht geladen werden:', error);
+        doorMap.closest('figure').hidden = true;
+      });
+  },
+  { rootMargin: '800px 0px' },
+).observe(doorMap);
 
 /* ------------------------------------------------------------------ Lage: center the plan on the house */
 

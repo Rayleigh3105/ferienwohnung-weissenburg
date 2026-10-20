@@ -26,7 +26,7 @@
   <link rel="preload" href="assets/data/altstadt.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="assets/vendor/maplibre-gl/maplibre-gl.css">
   <link rel="stylesheet" href="assets/css/main.css?v=2">
-  <script src="assets/js/boot.js"></script>
+  <script src="assets/js/boot.js?v=2"></script>
   <script type="module" src="assets/js/main.js?v=2"></script>
 
   <script type="application/ld+json">
@@ -399,8 +399,69 @@
       </div>
     </section>
 
-    <!-- 5. Preis & Kontakt -->
-    <section class="section section--sand" id="kontakt" aria-labelledby="kontakt-title">
+    <!-- 5. Ankommen: der Weg zur Wohnungstür -->
+    <section class="section section--sand" id="tuer" aria-labelledby="tuer-title">
+      <div class="container door-guide">
+        <div class="door-guide__intro">
+          <p class="kicker">Ankommen</p>
+          <h2 id="tuer-title" class="section-title">So finden Sie die Tür</h2>
+          <p class="section-lead">Der Eingang zur Ferienwohnung liegt nicht vorne an der Straße, sondern in der kleinen Gasse hinter dem Haus.</p>
+        </div>
+
+        <ol class="door-steps">
+          <li>
+            <span class="door-steps__num">1</span>
+            <div>
+              <h3>Vor dem Haus</h3>
+              <p>Pfarrgasse 3 ist das Haus mit den grünen Fensterläden. Die große Holztür vorne ist nicht der Eingang zur Ferienwohnung.</p>
+            </div>
+          </li>
+          <li>
+            <span class="door-steps__num">2</span>
+            <div>
+              <h3>Um die Ecke in die Gasse</h3>
+              <p>Gehen Sie an der Vorderseite entlang bis zur Hausecke mit dem Straßenschild „Pfarrgasse“ und dort in die schmale Gasse, die hinter das Haus führt. Vom Marktplatz kommend haben Sie das Haus links und biegen am Hausende links ab.</p>
+            </div>
+          </li>
+          <li>
+            <span class="door-steps__num">3</span>
+            <div>
+              <h3>Die Tür am Ende der Gasse</h3>
+              <p>Am Ende der Gasse ist die Tür zur Ferienwohnung.</p>
+            </div>
+          </li>
+        </ol>
+
+        <figure class="door-photo">
+          <div class="door-photo__frame">
+            <picture>
+              <source type="image/avif" sizes="(min-width: 1040px) 40vw, (min-width: 700px) 70vw, 100vw" srcset="assets/img/wohnung/haus-480.avif 480w, assets/img/wohnung/haus-800.avif 800w, assets/img/wohnung/haus-1200.avif 1200w, assets/img/wohnung/haus-1600.avif 1600w, assets/img/wohnung/haus-2000.avif 2000w">
+              <img src="assets/img/wohnung/haus-1200.webp" sizes="(min-width: 1040px) 40vw, (min-width: 700px) 70vw, 100vw" srcset="assets/img/wohnung/haus-480.webp 480w, assets/img/wohnung/haus-800.webp 800w, assets/img/wohnung/haus-1200.webp 1200w, assets/img/wohnung/haus-1600.webp 1600w, assets/img/wohnung/haus-2000.webp 2000w" width="2000" height="1332" alt="Vorderseite des Hauses an der Pfarrgasse; eingezeichnet ist der Weg von der Holztür an der Fassade entlang zur Hausecke und in die Gasse hinter dem Haus" loading="lazy" decoding="async" style="--color: #a8b8d8">
+            </picture>
+            <svg class="door-photo__route" viewBox="0 0 2000 1332" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <marker id="door-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse">
+                  <path d="M0 0 10 5 0 10Z" fill="#e4572e" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/>
+                </marker>
+              </defs>
+              <path class="door-photo__casing" d="M905 1085 C1130 1080 1310 1068 1405 1030 S1490 972 1418 952"/>
+              <path class="door-photo__line" d="M905 1085 C1130 1080 1310 1068 1405 1030 S1490 972 1418 952" marker-end="url(#door-arrow)"/>
+            </svg>
+            <span class="door-photo__badge" style="--x: 45.25%; --y: 81.46%" aria-hidden="true">1</span>
+            <span class="door-photo__badge" style="--x: 66%; --y: 72%" aria-hidden="true">2</span>
+          </div>
+          <figcaption>Blick auf die Vorderseite. Die Gasse beginnt an der Hausecke mit dem Straßenschild.</figcaption>
+        </figure>
+
+        <figure class="door-3d">
+          <div class="door-3d__map" data-door-map aria-hidden="true"></div>
+          <figcaption>3D-Ansicht: der Weg von der Vorderseite <b>1</b> über die Hausecke <b>2</b> zu Ihrer Tür <b>3</b>.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 6. Preis & Kontakt -->
+    <section class="section" id="kontakt" aria-labelledby="kontakt-title">
       <div class="container contact">
         <div class="contact__intro">
           <p class="kicker">Kontakt</p>
