@@ -97,11 +97,8 @@ Das Skript schreibt `site/assets/data/altstadt.json` und `site/assets/img/altsta
 
 ## Noch offen
 
-- Anschrift des Gastgebers für Impressum und Datenschutzerklärung (Pflichtangabe).
 - Impressum und Datenschutzerklärung vor der Veröffentlichung prüfen lassen.
-- Sobald die Domain feststeht: absolute Adresse für das Vorschaubild (`og:image`) eintragen, damit geteilte Links ein Bild zeigen.
-
-Fehlende Angaben sind auf der Seite gelb gestrichelt markiert (`class="todo"`).
+- Bei einer eigenen Domain die Adresse in `og:url`, `og:image` und den strukturierten Daten (`url`, `image`) in `site/index.html` anpassen, damit geteilte Links weiter ein Vorschaubild zeigen.
 
 ## Lizenzen und Quellen
 
