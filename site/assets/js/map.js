@@ -155,11 +155,11 @@ function createStyle(data) {
   };
 }
 
-// The way to the apartment door in meters east/north of HOUSE: from the front door along the
-// Pfarrgasse to the corner of the house, then into the alley behind it.
-const DOOR_ROUTE_M = [[-3.5, 12], [-9.5, 12], [-11.4, 11.3], [-12.2, 9.6], [-12.3, 2], [-11.8, -3.4]];
-const ALLEY_CORNER_M = [-12.2, 11];
-const FLAT_DOOR_M = [-10.4, -3.4];
+// The way to the apartment door in meters east/north of HOUSE: from the front door to the left
+// (east) corner of the house, then into the alley between the house and Pfarrgasse 1.
+const DOOR_ROUTE_M = [[-3.5, 12], [0.6, 12], [2.2, 11.3], [2.8, 9.6], [2.6, 5], [2.1, 0.5], [2, -1]];
+const ALLEY_CORNER_M = [2.8, 10.4];
+const FLAT_DOOR_M = [1.5, -1];
 
 const metersToLngLat = ([x, y]) => [HOUSE[0] + x / (111320 * Math.cos((HOUSE[1] * Math.PI) / 180)), HOUSE[1] + y / 110574];
 
@@ -342,9 +342,10 @@ export async function createDoorRouteMap(container, urls, { animate }) {
     if (layer.id === 'building') layer.paint['fill-extrusion-height'] = ['*', ['get', 'h'], ['case', ['==', ['get', 'k'], 'home'], 0.6, 0.3]];
     if (layer.id === 'tree' || layer.id === 'wall') layer.paint['fill-extrusion-height'] = ['*', ['get', 'h'], 0.4];
   }
-  const beforeWall = style.layers.findIndex((l) => l.id === 'wall');
+  // The way is drawn above the buildings, so the narrow alley is never hidden by a neighbour.
+  const afterBuildings = style.layers.findIndex((l) => l.id === 'building') + 1;
   style.layers.splice(
-    beforeWall,
+    afterBuildings,
     0,
     {
       id: 'route-casing',
@@ -362,12 +363,13 @@ export async function createDoorRouteMap(container, urls, { animate }) {
     },
   );
 
-  const bearing = 160;
-  const zoomFor = () => (container.clientWidth < 600 ? 18.9 : 19.3);
+  // Seen from north-north-east: the front faces the viewer and the alley is on the left, as in the photo.
+  const bearing = 200;
+  const zoomFor = () => (container.clientWidth < 600 ? 19.3 : 19.9);
   const map = new maplibre.Map({
     container,
     style,
-    center: metersToLngLat([-7, 0]),
+    center: metersToLngLat([0, 4]),
     zoom: zoomFor(),
     pitch: 42,
     bearing,
@@ -378,13 +380,13 @@ export async function createDoorRouteMap(container, urls, { animate }) {
     canvasContextAttributes: { antialias: true },
   });
 
-  // The labels sit next to the way (left of the start, right of the corner, beyond the door).
+  // The labels sit next to the way (below the start, left of the corner, beyond the door).
   const place = (el, at, anchor, offset) =>
     new maplibre.Marker({ element: el, anchor, offset, pitchAlignment: 'viewport', rotationAlignment: 'viewport' })
       .setLngLat(metersToLngLat(at))
       .addTo(map);
-  place(createBadge('<b>1</b> Vorderseite', 'route-badge'), DOOR_ROUTE_M[0], 'right', [-6, 0]);
-  place(createBadge('<b>2</b>', 'route-badge route-badge--round'), ALLEY_CORNER_M, 'left', [10, 0]);
+  place(createBadge('<b>1</b> Vorderseite', 'route-badge'), DOOR_ROUTE_M[0], 'top', [0, 8]);
+  place(createBadge('<b>2</b>', 'route-badge route-badge--round'), ALLEY_CORNER_M, 'right', [-10, 0]);
   place(createBadge('<b>3</b> Ihre Tür', 'route-badge route-badge--door'), FLAT_DOOR_M, 'bottom', [0, -10]);
 
   await new Promise((resolve) => map.once('load', resolve));
