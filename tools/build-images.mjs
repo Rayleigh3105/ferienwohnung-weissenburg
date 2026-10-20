@@ -24,20 +24,15 @@ const WIDTHS = [480, 800, 1200, 1600, 2400];
 // Source photo (relative to the photo folder given on the command line) -> name on the website.
 // The order is the order of the gallery.
 const PHOTOS = [
+  ['Alle Bilder/Aussenansicht.jpg', 'haus'],
   ['Auswahl_15/01_Wohnkueche_Ueberblick.jpg', 'wohnkueche'],
   ['Auswahl_15/02_Kueche.jpg', 'kueche'],
   ['Auswahl_15/03_Kuecheninsel_Bar.jpg', 'kuecheninsel-bar'],
-  ['Auswahl_15/04_Kuecheninsel_TV.jpg', 'kuecheninsel-tv'],
   ['Alle Bilder/IMG_0197.JPG', 'kuechenzeile'],
   ['Alle Bilder/IMG_0198.JPG', 'tresen-fenster'],
   ['Auswahl_15/07_Wohnbereich_Sofa.jpg', 'sofa'],
-  ['Alle Bilder/IMG20261008164314.jpg', 'sofa-ecke'],
-  ['Alle Bilder/IMG20261008170048.jpg', 'wohnbereich'],
   ['Alle Bilder/IMG_0202.JPG', 'fensterbank'],
-  ['Auswahl_15/08_Schlafzimmer.jpg', 'schlafzimmer'],
   ['Auswahl_15/09_Schlafzimmer_Fenster.jpg', 'schlafzimmer-fenster'],
-  ['Alle Bilder/IMG20261008170618.jpg', 'schlafzimmer-schrank'],
-  ['Alle Bilder/IMG20261008170826.jpg', 'schlafzimmer-tuer'],
   ['Auswahl_15/10_Bad_Waschtisch_Dusche.jpg', 'bad'],
   ['Auswahl_15/11_Bad_Fensterseite.jpg', 'bad-fenster'],
   ['Auswahl_15/12_Dusche.jpg', 'dusche'],
@@ -46,8 +41,6 @@ const PHOTOS = [
   ['Auswahl_15/15_Flur_Garderobe.jpg', 'flur'],
   ['Alle Bilder/IMG_0188.JPG', 'garderobe'],
   ['Auswahl_15/14_Ausblick_Kirche.jpg', 'ausblick'],
-  ['Alle Bilder/IMG_0207.JPG', 'ausblick-gasse'],
-  ['Alle Bilder/IMG_0216.JPG', 'ausblick-fenster'],
 ];
 const OG_SOURCE = 'wohnkueche';
 

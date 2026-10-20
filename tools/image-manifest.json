@@ -1,4 +1,16 @@
 {
+  "haus": {
+    "width": 2000,
+    "height": 1332,
+    "color": "#a8b8d8",
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      2000
+    ]
+  },
   "wohnkueche": {
     "width": 3000,
     "height": 4000,
@@ -26,18 +38,6 @@
   "kuecheninsel-bar": {
     "width": 3800,
     "height": 2858,
-    "color": "#988878",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
-  "kuecheninsel-tv": {
-    "width": 4000,
-    "height": 3008,
     "color": "#988878",
     "widths": [
       480,
@@ -83,30 +83,6 @@
       2400
     ]
   },
-  "sofa-ecke": {
-    "width": 3008,
-    "height": 4000,
-    "color": "#a89888",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
-  "wohnbereich": {
-    "width": 4000,
-    "height": 3008,
-    "color": "#988878",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
   "fensterbank": {
     "width": 4000,
     "height": 6000,
@@ -119,46 +95,10 @@
       2400
     ]
   },
-  "schlafzimmer": {
-    "width": 6000,
-    "height": 4000,
-    "color": "#a89888",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
   "schlafzimmer-fenster": {
     "width": 4000,
     "height": 3000,
     "color": "#887868",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
-  "schlafzimmer-schrank": {
-    "width": 4000,
-    "height": 3008,
-    "color": "#988878",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
-  "schlafzimmer-tuer": {
-    "width": 3000,
-    "height": 4000,
-    "color": "#a89888",
     "widths": [
       480,
       800,
@@ -255,30 +195,6 @@
     "width": 3008,
     "height": 4000,
     "color": "#b8b8b8",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
-  "ausblick-gasse": {
-    "width": 4000,
-    "height": 6000,
-    "color": "#f8f8f8",
-    "widths": [
-      480,
-      800,
-      1200,
-      1600,
-      2400
-    ]
-  },
-  "ausblick-fenster": {
-    "width": 4000,
-    "height": 6000,
-    "color": "#785838",
     "widths": [
       480,
       800,
