@@ -1,5 +1,7 @@
-import { createAltstadtMap } from './map.js';
-import { initGallery } from './gallery.js';
+// "?v=2": until 20.10.2026 code files were cached for a day; the new address makes browsers that
+// still hold the old files load the current ones. Since then code is revalidated on every visit.
+import { createAltstadtMap } from './map.js?v=2';
+import { initGallery } from './gallery.js?v=2';
 
 const root = document.documentElement;
 const motion = root.classList.contains('motion');
